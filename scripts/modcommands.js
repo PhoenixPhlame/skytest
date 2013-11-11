@@ -1,40 +1,49 @@
-exports.handleCommand = function(src, command, commandData, tar, channel) {
+exports.handleCommand = function (src, command, commandData, tar, channel) {
+    cmd_d = sys.getFileContent("death.txt");
     if (command == "channelusers") {
-       if (commandData === undefined) {
-           normalbot.sendMessage(src, "Please give me a channelname!", channel);
-           return;
-       }
-       var chanid;
-       var isbot;
-       if (commandData[0] == "~") {
-           chanid = sys.channelId(commandData.substring(1));
-           isbot = true;
-       } else {
-           chanid = sys.channelId(commandData);
-           isbot = false;
-       }
-       if (chanid === undefined) {
-           channelbot.sendMessage(src, "Such a channel doesn't exist!", channel);
-           return;
-       }
-       var chanName = sys.channel(chanid);
-       var players = sys.playersOfChannel(chanid);
-       var objectList = [];
-       var names = [];
-       for (var i = 0; i < players.length; ++i) {
+        if (commandData === undefined) {
+            normalbot.sendMessage(src, "Please give me a channelname!", channel);
+            return;
+        }
+        var chanid;
+        var isbot;
+        if (commandData[0] == "~") {
+            chanid = sys.channelId(commandData.substring(1));
+            isbot = true;
+        } else {
+            chanid = sys.channelId(commandData);
+            isbot = false;
+        }
+        if (chanid === undefined) {
+            channelbot.sendMessage(src, "Such a channel doesn't exist!", channel);
+            return;
+        }
+        var chanName = sys.channel(chanid);
+        var players = sys.playersOfChannel(chanid);
+        var objectList = [];
+        var names = [];
+        for (var i = 0; i < players.length; ++i) {
             var name = sys.name(players[i]);
             if (isbot)
-            objectList.push({'id': players[i], 'name': name});
-                else
-            names.push(name);
-       }
-       if (isbot) {
-           var channelData = {'type': 'ChannelUsers', 'channel-id': chanid, 'channel-name': chanName, 'players': objectList};
-           sys.sendMessage(src, ":"+JSON.stringify(channelData), channel);
-       } else {
-           channelbot.sendMessage(src, "Users of channel #" + chanName + " are: " + names.join(", "), channel);
-       }
-       return;
+                objectList.push({
+                    'id': players[i],
+                    'name': name
+                });
+            else
+                names.push(name);
+        }
+        if (isbot) {
+            var channelData = {
+                'type': 'ChannelUsers',
+                'channel-id': chanid,
+                'channel-name': chanName,
+                'players': objectList
+            };
+            sys.sendMessage(src, ":" + JSON.stringify(channelData), channel);
+        } else {
+            channelbot.sendMessage(src, "Users of channel #" + chanName + " are: " + names.join(", "), channel);
+        }
+        return;
     }
     if (command == "onrange") {
         var subip = commandData;
@@ -55,9 +64,9 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             for (var i = 0; i < names.length; i++) {
                 msgs.push(sys.name(names[i]) + " (" + sys.ip(names[i]) + ")");
             }
-            sys.sendMessage(src,"Players: on range " + subip + " are: " + msgs.join(", "), channel);
+            sys.sendMessage(src, "Players: on range " + subip + " are: " + msgs.join(", "), channel);
         } else {
-            sys.sendMessage(src,"Players: Nothing interesting here!",channel);
+            sys.sendMessage(src, "Players: Nothing interesting here!", channel);
         }
         return;
     }
@@ -74,17 +83,18 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "tier") {
-        if (tar === undefined){
-            querybot.sendChanMessage(src,"No such user online.");
+        if (tar === undefined) {
+            querybot.sendChanMessage(src, "No such user online.");
             return;
         }
-        var count = sys.teamCount(tar), tiers = [];
+        var count = sys.teamCount(tar),
+            tiers = [];
         for (var i = 0; i < count; ++i) {
             var ctier = sys.tier(tar, i);
             if (tiers.indexOf(ctier) == -1)
-            tiers.push(ctier);
+                tiers.push(ctier);
         }
-        querybot.sendMessage(src,sys.name(tar)+" is in tier"+(tiers.length <= 1?"":"s")+": "+tiers.join(", "), channel);
+        querybot.sendMessage(src, sys.name(tar) + " is in tier" + (tiers.length <= 1 ? "" : "s") + ": " + tiers.join(", "), channel);
         return;
     }
     if (command == "perm") {
@@ -99,15 +109,15 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "silence") {
-        if (typeof(commandData) == "undefined") {
+        if (typeof (commandData) == "undefined") {
             return;
         }
         var minutes;
         var chanName;
         var space = commandData.indexOf(' ');
         if (space != -1) {
-            minutes = commandData.substring(0,space);
-            chanName = commandData.substring(space+1);
+            minutes = commandData.substring(0, space);
+            chanName = commandData.substring(space + 1);
         } else {
             minutes = commandData;
             chanName = sys.channel(channel);
@@ -127,7 +137,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         normalbot.sendAll("" + commandData + " was mysteriously kicked by " + nonFlashing(sys.name(src)) + "!");
         sys.kick(tar);
         var authname = sys.name(src).toLowerCase();
-        authStats[authname] =  authStats[authname] || {};
+        authStats[authname] = authStats[authname] || {};
         authStats[authname].latestKick = [commandData, parseInt(sys.time(), 10)];
         return;
     }
@@ -137,20 +147,20 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "banlist") {
-        var list=sys.banList();
+        var list = sys.banList();
         list.sort();
-        var nbr_banned=5;
+        var nbr_banned = 5;
         var max_message_length = 30000;
-        var table_header = '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan='+nbr_banned+'><center><strong>Banned list</strong></center></td></tr><tr>';
+        var table_header = '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan=' + nbr_banned + '><center><strong>Banned list</strong></center></td></tr><tr>';
         var table_footer = '</tr></table>';
-        var table=table_header;
-        var j=0;
+        var table = table_header;
+        var j = 0;
         var line = '';
-        for (var i=0; i<list.length; ++i){
-            if (typeof commandData == 'undefined' || list[i].toLowerCase().indexOf(commandData.toLowerCase()) != -1){
+        for (var i = 0; i < list.length; ++i) {
+            if (typeof commandData == 'undefined' || list[i].toLowerCase().indexOf(commandData.toLowerCase()) != -1) {
                 ++j;
-                line += '<td>'+list[i]+'</td>';
-                if(j == nbr_banned &&  i+1 != list.length){
+                line += '<td>' + list[i] + '</td>';
+                if (j == nbr_banned && i + 1 != list.length) {
                     if (table.length + line.length + table_footer.length > max_message_length) {
                         if (table.length + table_footer.length <= max_message_length)
                             sys.sendHtmlMessage(src, table + table_footer, channel);
@@ -158,12 +168,12 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
                     }
                     table += line + '</tr><tr>';
                     line = '';
-                    j=0;
+                    j = 0;
                 }
             }
         }
         table += table_footer;
-        sys.sendHtmlMessage(src, table.replace('</tr><tr></tr></table>', '</tr></table>'),channel);
+        sys.sendHtmlMessage(src, table.replace('</tr><tr></tr></table>', '</tr></table>'), channel);
         return;
 
     }
@@ -174,57 +184,65 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     if (command == "rangebans") {
         var TABLE_HEADER, TABLE_LINE, TABLE_END;
         if (!commandData || commandData.indexOf('-text') == -1) {
-           TABLE_HEADER = '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan="2"><center><strong>Range banned</strong></center></td></tr><tr><th>IP subaddress</th><th>Comment on rangeban</th></tr>';
-           TABLE_LINE = '<tr><td>{0}</td><td>{1}</td></tr>';
-           TABLE_END = '</table>';
+            TABLE_HEADER = '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan="2"><center><strong>Range banned</strong></center></td></tr><tr><th>IP subaddress</th><th>Comment on rangeban</th></tr>';
+            TABLE_LINE = '<tr><td>{0}</td><td>{1}</td></tr>';
+            TABLE_END = '</table>';
         } else {
-           TABLE_HEADER = 'Range banned: IP subaddress, Command on rangeban';
-           TABLE_LINE = ' || {0} / {1}';
-           TABLE_END = '';
+            TABLE_HEADER = 'Range banned: IP subaddress, Command on rangeban';
+            TABLE_LINE = ' || {0} / {1}';
+            TABLE_END = '';
         }
         try {
-        var table = TABLE_HEADER;
-        var tmp = [];
-        for (var key in script.rangebans.hash) {
-            if (script.rangebans.hash.hasOwnProperty(key)) {
-                tmp.push([key, script.rangebans.get(key)]);
+            var table = TABLE_HEADER;
+            var tmp = [];
+            for (var key in script.rangebans.hash) {
+                if (script.rangebans.hash.hasOwnProperty(key)) {
+                    tmp.push([key, script.rangebans.get(key)]);
+                }
             }
+            tmp.sort(function (a, b) {
+                return a[0] < b[0] ? -1 : 1;
+            });
+            for (var row = 0; row < tmp.length; ++row) {
+                table += TABLE_LINE.format(tmp[row][0], tmp[row][1]);
+            }
+            table += TABLE_END;
+            sys.sendHtmlMessage(src, table, channel);
+        } catch (e) {
+            sys.sendMessage(src, e, channel);
         }
-        tmp.sort(function(a,b) { return a[0] < b[0] ? -1 : 1; });
-        for (var row = 0; row < tmp.length; ++row) {
-            table += TABLE_LINE.format(tmp[row][0], tmp[row][1]);
-        }
-        table += TABLE_END;
-        sys.sendHtmlMessage(src, table, channel);
-        } catch (e) { sys.sendMessage(src, e, channel); }
         return;
     }
     if (command == "ipbans") {
         var TABLE_HEADER, TABLE_LINE, TABLE_END;
         if (!commandData || commandData.indexOf('-text') == -1) {
-           TABLE_HEADER = '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan="2"><center><strong>Ip Banned</strong></center></td></tr><tr><th>IP subaddress</th><th>Comment on ipban</th></tr>';
-           TABLE_LINE = '<tr><td>{0}</td><td>{1}</td></tr>';
-           TABLE_END = '</table>';
+            TABLE_HEADER = '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan="2"><center><strong>Ip Banned</strong></center></td></tr><tr><th>IP subaddress</th><th>Comment on ipban</th></tr>';
+            TABLE_LINE = '<tr><td>{0}</td><td>{1}</td></tr>';
+            TABLE_END = '</table>';
         } else {
-           TABLE_HEADER = 'Ip Banned: IP subaddress, Command on ipban';
-           TABLE_LINE = ' || {0} / {1}';
-           TABLE_END = '';
+            TABLE_HEADER = 'Ip Banned: IP subaddress, Command on ipban';
+            TABLE_LINE = ' || {0} / {1}';
+            TABLE_END = '';
         }
         try {
-        var table = TABLE_HEADER;
-        var tmp = [];
-        for (var key in script.ipbans.hash) {
-            if (script.ipbans.hash.hasOwnProperty(key)) {
-                tmp.push([key, script.ipbans.get(key)]);
+            var table = TABLE_HEADER;
+            var tmp = [];
+            for (var key in script.ipbans.hash) {
+                if (script.ipbans.hash.hasOwnProperty(key)) {
+                    tmp.push([key, script.ipbans.get(key)]);
+                }
             }
+            tmp.sort(function (a, b) {
+                return a[0] < b[0] ? -1 : 1;
+            });
+            for (var row = 0; row < tmp.length; ++row) {
+                table += TABLE_LINE.format(tmp[row][0], tmp[row][1]);
+            }
+            table += TABLE_END;
+            sys.sendHtmlMessage(src, table, channel);
+        } catch (e) {
+            sys.sendMessage(src, e, channel);
         }
-        tmp.sort(function(a,b) { return a[0] < b[0] ? -1 : 1; });
-        for (var row = 0; row < tmp.length; ++row) {
-            table += TABLE_LINE.format(tmp[row][0], tmp[row][1]);
-        }
-        table += TABLE_END;
-        sys.sendHtmlMessage(src, table, channel);
-        } catch (e) { sys.sendMessage(src, e, channel); }
         return;
     }
     if (command == "autosmutelist") {
@@ -234,13 +252,34 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         }
         return;
     }
+    if (command == "doff") {
+        if (cmd_d == "false") {
+            channelbot.sendChanMessage(src, "/d is already off.");
+            return;
+        }
+        sys.writeToFile("death.txt", "false");
+        var color = sys.getColor(src);
+        sys.sendHtmlAll("<timestamp/> <b><font color='#1611A8'>/d has been turned off by <font color=" + color + ">" + sys.name(src) + "</b></font></font>", channel);
+        return;
+    }
+    if (command == "don") {
+        if (cmd_d == "true") {
+            channelbot.sendChanMessage(src, "/d is already on.");
+            sys.stopEvent();
+            return;
+        }
+        sys.writeToFile("death.txt", "true");
+        var color = sys.getColor(src);
+        sys.sendHtmlAll("<timestamp/> <b><font color='#1611A8'>/d has been turned on by <font color=" + color + ">" + sys.name(src) + "</font></font></b>", channel);
+        return;
+    }
     if (command == "namebans") {
         var table = '';
         table += '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan="2"><center><strong>Name banned</strong></center></td></tr>';
-        for (var i = 0; i < nameBans.length; i+=5) {
+        for (var i = 0; i < nameBans.length; i += 5) {
             table += '<tr>';
-            for (var j = 0; j < 5 && i+j < nameBans.length; ++j) {
-                table += '<td>'+nameBans[i+j].toString()+'</td>';
+            for (var j = 0; j < 5 && i + j < nameBans.length; ++j) {
+                table += '<td>' + nameBans[i + j].toString() + '</td>';
             }
             table += '</tr>';
         }
@@ -251,10 +290,10 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     if (command == "namewarns") {
         var table = '';
         table += '<table border="1" cellpadding="5" cellspacing="0"><tr><td colspan="2"><center><strong>Namewarnings</strong></center></td></tr>';
-        for (var i = 0; i < nameWarns.length; i+=5) {
+        for (var i = 0; i < nameWarns.length; i += 5) {
             table += '<tr>';
-            for (var j = 0; j < 5 && i+j < nameWarns.length; ++j) {
-                table += '<td>'+nameWarns[i+j].toString()+'</td>';
+            for (var j = 0; j < 5 && i + j < nameWarns.length; ++j) {
+                table += '<td>' + nameWarns[i + j].toString() + '</td>';
             }
             table += '</tr>';
         }
@@ -278,7 +317,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         }
         var res = [];
         for (var i = 0; i < hist.length; ++i) {
-             res.push("Battle against <b>" + hist[i][0] + "</b>, result <b>" + hist[i][1] + "</b>" + (hist[i][2] == "forfeit" ? " <i>due to forfeit</i>" : "") + (hist[i][3] ? " (<b>rated</b>)" : "") + (hist[i][4] ? " Tier: " + hist[i][4] + "." : "."));
+            res.push("Battle against <b>" + hist[i][0] + "</b>, result <b>" + hist[i][1] + "</b>" + (hist[i][2] == "forfeit" ? " <i>due to forfeit</i>" : "") + (hist[i][3] ? " (<b>rated</b>)" : "") + (hist[i][4] ? " Tier: " + hist[i][4] + "." : "."));
         }
         sys.sendHtmlMessage(src, res.join("<br>"), channel);
         return;
@@ -315,14 +354,16 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             online = true;
             var chans = sys.channelsOfPlayer(tar);
             for (var i = 0; i < chans.length; ++i) {
-                channels.push("#"+sys.channel(chans[i]));
+                channels.push("#" + sys.channel(chans[i]));
             }
         } else {
             authLevel = sys.dbAuth(name);
             ip = sys.dbIp(name);
             online = false;
         }
-        var isBanned = sys.banList().filter(function(name) { return ip == sys.dbIp(name); }).length > 0;
+        var isBanned = sys.banList().filter(function (name) {
+            return ip == sys.dbIp(name);
+        }).length > 0;
         var nameBanned = script.nameIsInappropriate(name);
         var rangeBanned = script.isRangeBanned(ip);
         var tempBanned = script.isTempBanned(ip);
@@ -332,30 +373,44 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         if (nameBanned) bans.push("nameban");
         if (rangeBanned) bans.push("rangeban");
         if (tempBanned) bans.push("tempban");
-        if(ipBanned) bans.push("ip ban");
+        if (ipBanned) bans.push("ip ban");
 
         if (isbot) {
-            var userJson = {'type': 'UserInfo', 'id': tar ? tar : -1, 'username': name, 'auth': authLevel, 'contributor': contribution, 'ip': ip, 'online': online, 'registered': registered, 'lastlogin': lastLogin };
-            sys.sendMessage(src, ":"+JSON.stringify(userJson), channel);
+            var userJson = {
+                'type': 'UserInfo',
+                'id': tar ? tar : -1,
+                'username': name,
+                'auth': authLevel,
+                'contributor': contribution,
+                'ip': ip,
+                'online': online,
+                'registered': registered,
+                'lastlogin': lastLogin
+            };
+            sys.sendMessage(src, ":" + JSON.stringify(userJson), channel);
         } else if (command == "userinfo") {
             querybot.sendMessage(src, "Username: " + name + " ~ auth: " + authLevel + " ~ contributor: " + contribution + " ~ ip: " + ip + " ~ online: " + (online ? "yes" : "no") + " ~ registered: " + (registered ? "yes" : "no") + " ~ last login: " + lastLogin + " ~ banned: " + (isBanned ? "yes" : "no"), channel);
         } else if (command == "whois" || command == "whereis") {
-            var whois = function(resp) {
+            var whois = function (resp) {
                 /* May have dced, this being an async call */
                 online = sys.loggedIn(tar);
-                var authName = function() {
+                var authName = function () {
                     switch (authLevel) {
-                    case 3: return "owner";
-                    case 2: return "admin";
-                    case 1: return "moderator";
-                    default: return contribution != "no" ? "contributor" : "user";
+                    case 3:
+                        return "owner";
+                    case 2:
+                        return "admin";
+                    case 1:
+                        return "moderator";
+                    default:
+                        return contribution != "no" ? "contributor" : "user";
                     }
                 }();
                 var ipInfo = "";
                 if (resp !== undefined) {
                     resp = JSON.parse(resp);
                     var countryName = resp.countryName;
-                    var countryTag =  resp.countryCode;
+                    var countryTag = resp.countryCode;
                     var regionName = resp.regionName;
                     var cityName = resp.cityName;
                     if (countryName !== "" && countryName !== "-") {
@@ -364,7 +419,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
                     if (regionName !== "" && regionName !== "-") {
                         ipInfo += "Region: " + regionName + ", ";
                     }
-                    if(cityName !== "" && cityName !== "-"){
+                    if (cityName !== "" && cityName !== "-") {
                         ipInfo += "City: " + cityName;
                     }
                 }
@@ -375,23 +430,25 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
                     "Auth: " + authName,
                     "Online: " + (online ? "yes" : "no"),
                     "Registered name: " + (registered ? "yes" : "no"),
-                    "Last Login: " + (online && logintime ? new Date(logintime*1000).toUTCString() : lastLogin),
+                    "Last Login: " + (online && logintime ? new Date(logintime * 1000).toUTCString() : lastLogin),
                     bans.length > 0 ? "Bans: " + bans.join(", ") : "Bans: none",
-                    ipInfo !== ""  ? "IP Details: " + ipInfo : ""
+                    ipInfo !== "" ? "IP Details: " + ipInfo : ""
                 ];
                 if (online) {
                     if (SESSION.users(tar).hostname != ip)
                         data[0] += " (" + SESSION.users(tar).hostname + ")";
                     data.push("Idle for: " + getTimeString(parseInt(sys.time(), 10) - SESSION.users(tar).lastline.time));
                     data.push("Channels: " + channels.join(", "));
-                    data.push("Names during current session: " + (online && SESSION.users(tar).namehistory ? SESSION.users(tar).namehistory.map(function(e){return e[0];}).join(", ") : name));
+                    data.push("Names during current session: " + (online && SESSION.users(tar).namehistory ? SESSION.users(tar).namehistory.map(function (e) {
+                        return e[0];
+                    }).join(", ") : name));
                     data.push("Client Type: " + utilities.capitalize(sys.os(tar)));
                 }
                 if (authLevel > 0) {
                     var stats = authStats[name.toLowerCase()] || {};
                     for (var key in stats) {
                         if (stats.hasOwnProperty(key)) {
-                            data.push("Latest " + key.substr(6).toLowerCase() + ": " + stats[key][0] + " on " + new Date(stats[key][1]*1000).toUTCString());
+                            data.push("Latest " + key.substr(6).toLowerCase() + ": " + stats[key][0] + " on " + new Date(stats[key][1] * 1000).toUTCString());
                         }
                     }
                 }
@@ -402,8 +459,8 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
                 }
             };
             if (command === "whereis") {
-                var ipApi = sys.getFileContent(Config.dataDir+'ipApi.txt');
-                sys.webCall('http://api.ipinfodb.com/v3/ip-city/?key=' + ipApi + '&ip='+ ip + '&format=json', whois);
+                var ipApi = sys.getFileContent(Config.dataDir + 'ipApi.txt');
+                sys.webCall('http://api.ipinfodb.com/v3/ip-city/?key=' + ipApi + '&ip=' + ip + '&format=json', whois);
             } else {
                 whois();
             }
@@ -424,7 +481,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             return;
         }
         var myAuth = sys.auth(src);
-        var allowedToAlias = function(target) {
+        var allowedToAlias = function (target) {
             return !(myAuth < 3 && sys.dbAuth(target) > myAuth);
         };
 
@@ -436,16 +493,16 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
 
         var smessage = "The aliases for the IP " + ip + " are: ";
         var prefix = "";
-        sys.aliases(ip).map(function(name) {
+        sys.aliases(ip).map(function (name) {
             return [sys.dbLastOn(name), name];
-        }).sort().forEach(function(alias_tuple) {
+        }).sort().forEach(function (alias_tuple) {
             var last_login = alias_tuple[0],
                 alias = alias_tuple[1];
             if (!allowedToAlias(alias)) {
                 return;
             }
             var status = (sys.id(alias) !== undefined) ? "online" : "Last Login: " + last_login;
-            smessage = smessage + alias + " ("+status+"), ";
+            smessage = smessage + alias + " (" + status + "), ";
             if (smessage.length > max_message_length) {
                 querybot.sendMessage(src, prefix + smessage + " ...", channel);
                 prefix = "... ";
@@ -455,13 +512,13 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         querybot.sendMessage(src, prefix + smessage, channel);
         return;
     }
-   if (command == "tempban") {
+    if (command == "tempban") {
         var tmp = commandData.split(":");
         if (tmp.length === 0) {
             normalbot.sendMessage(src, "Usage /tempban name:minutes.", channel);
             return;
         }
-        
+
         var target_name = tmp[0];
         if (tmp[1] === undefined || isNaN(tmp[1][0])) {
             var minutes = 86400;
@@ -479,11 +536,11 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             normalbot.sendMessage(src, "No such user!", channel);
             return;
         }
-        if (sys.maxAuth(ip)>=sys.auth(src)) {
-           normalbot.sendMessage(src, "Can't do that to higher auth!", channel);
-           return;
+        if (sys.maxAuth(ip) >= sys.auth(src)) {
+            normalbot.sendMessage(src, "Can't do that to higher auth!", channel);
+            return;
         }
-        var banlist=sys.banList();
+        var banlist = sys.banList();
         for (var a in banlist) {
             if (ip == sys.dbIp(banlist[a])) {
                 normalbot.sendMessage(src, "He/she's already banned!", channel);
@@ -492,7 +549,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         }
         normalbot.sendAll("Target: " + target_name + ", IP: " + ip, staffchannel);
         sys.sendHtmlAll('<b><font color=red>' + target_name + ' was banned by ' + nonFlashing(sys.name(src)) + ' for ' + getTimeString(minutes) + '!</font></b>');
-        sys.tempBan(target_name, parseInt(minutes/60, 10));
+        sys.tempBan(target_name, parseInt(minutes / 60, 10));
         script.kickAll(ip);
         var authname = sys.name(src);
         authStats[authname] = authStats[authname] || {};
@@ -533,8 +590,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         }
         if (sys.ip(src) == sys.ip(tar) && sys.auth(tar) === 0) {
             // fine
-        }
-        else {
+        } else {
             if (sys.auth(src) !== 0 || !SESSION.users(src).megauser) {
                 normalbot.sendMessage(src, "You need to be mega-auth to pass auth.", channel);
                 return;
@@ -555,45 +611,44 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             normalbot.sendAll(sys.name(src) + " passed their auth to " + sys.name(tar) + "!", staffchannel);
         return;
     }
-    if (command == "skmute" && (sys.auth(src) >= 1 || [/* insert mod list here when this goes to admin+ */].indexOf(sys.name(src).toLowerCase()) >= 0)) {
+    if (command == "skmute" && (sys.auth(src) >= 1 || [ /* insert mod list here when this goes to admin+ */ ].indexOf(sys.name(src).toLowerCase()) >= 0)) {
         if (tar === undefined)
             normalbot.sendMessage(src, "use only for online target ", channel);
         else {
-            normalbot.sendAll("Target: " + sys.name(tar) + ", IP: " + sys.ip(tar) + ", Auth: "+ sys.name(src), staffchannel);
+            normalbot.sendAll("Target: " + sys.name(tar) + ", IP: " + sys.ip(tar) + ", Auth: " + sys.name(src), staffchannel);
             script.issueBan("smute", src, undefined, "" + sys.name(tar) + ":skarmpiss:2h");
         }
         return;
     }
     return "no command";
 };
-exports.help = 
-    [
-        "/k: Kicks someone.",
-        "/mute: Mutes someone. Format is /mute name:reason:time. Time is optional and defaults to 1 day.",
-        "/unmute: Unmutes someone.",
-        "/silence: Prevents authless users from talking in a channel for specified time. Format is /silence minutes:channel. Affects all official channels if no channel is given.",
-        "/silenceoff: Removes silence from a channel. Affects all official channels if none is specified.",
-        "/perm [on/off]: Make the current permanent channel or not (permanent channels remain listed when they have no users).",
-        "/userinfo: Displays basic information about a user on a single line.",
-        "/whois: Displays detailed information about a user.",
-        "/aliases: Shows the aliases of an IP or name.",
-        "/tempban: Bans someone for 24 hours or less. Format is /tempban name:time Time is optional and defaults to 1 day",
-        "/tempunban: Unbans a temporary banned user (standard unban doesn't work).",
-        "/checkbantime: Checks how long a user is banned for.",
-        "/passauth: Passes your mods to an online alt of yours.",
-        "/passauths: Passes your mods silently.",
-        "/banlist: Searches the banlist for a string, shows full list if no search term is entered.",
-        "/mutelist: Searches the mutelist for a string, shows full list if no search term is entered.",
-        "/smutelist: Searches the smutelist for a string, shows full list if no search term is entered.",
-        "/mafiabans: Searches the mafiabanlist for a string, shows full list if no search term is entered.",
-        "/rangebans: Lists range bans.",
-        "/ipbans: Lists ip bans.",
-        "/autosmutelist: Lists the names in the auto-smute list.",
-        "/namebans: Lists name bans.",
-        "/namewarns: Lists name warnings.",
-        "/onrange: To view who is on an IP range.",
-        "/onos: Lists players on a certain operating system (May lag a little with certain OS)",
-        "/tier: To view the tier(s) of a user.",
-        "/battlehistory: To view a user's battle history.",
-        "/channelusers: Lists users on a channel."
-    ]
+exports.help = [
+    "/k: Kicks someone.",
+    "/mute: Mutes someone. Format is /mute name:reason:time. Time is optional and defaults to 1 day.",
+    "/unmute: Unmutes someone.",
+    "/silence: Prevents authless users from talking in a channel for specified time. Format is /silence minutes:channel. Affects all official channels if no channel is given.",
+    "/silenceoff: Removes silence from a channel. Affects all official channels if none is specified.",
+    "/perm [on/off]: Make the current permanent channel or not (permanent channels remain listed when they have no users).",
+    "/userinfo: Displays basic information about a user on a single line.",
+    "/whois: Displays detailed information about a user.",
+    "/aliases: Shows the aliases of an IP or name.",
+    "/tempban: Bans someone for 24 hours or less. Format is /tempban name:time Time is optional and defaults to 1 day",
+    "/tempunban: Unbans a temporary banned user (standard unban doesn't work).",
+    "/checkbantime: Checks how long a user is banned for.",
+    "/passauth: Passes your mods to an online alt of yours.",
+    "/passauths: Passes your mods silently.",
+    "/banlist: Searches the banlist for a string, shows full list if no search term is entered.",
+    "/mutelist: Searches the mutelist for a string, shows full list if no search term is entered.",
+    "/smutelist: Searches the smutelist for a string, shows full list if no search term is entered.",
+    "/mafiabans: Searches the mafiabanlist for a string, shows full list if no search term is entered.",
+    "/rangebans: Lists range bans.",
+    "/ipbans: Lists ip bans.",
+    "/autosmutelist: Lists the names in the auto-smute list.",
+    "/namebans: Lists name bans.",
+    "/namewarns: Lists name warnings.",
+    "/onrange: To view who is on an IP range.",
+    "/onos: Lists players on a certain operating system (May lag a little with certain OS)",
+    "/tier: To view the tier(s) of a user.",
+    "/battlehistory: To view a user's battle history.",
+    "/channelusers: Lists users on a channel."
+]
