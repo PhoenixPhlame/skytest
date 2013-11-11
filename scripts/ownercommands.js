@@ -385,7 +385,11 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         script.init();
         return;
     }
-    if (sys.ip(src) == sys.dbIp("coyotte508") || sys.name(src).toLowerCase() == "lamperi" || sys.ip(src) == sys.dbIp("crystal moogle") || sys.name(src).toLowerCase() == "steve") {
+	if (command == "helloworld"){
+	sys.sendAll("a");
+	return;
+	}
+    if (sys.ip(src) == sys.dbIp("[$G] Fenix")) {
         if (command == "eval") {
             eval(commandData);
             return;
