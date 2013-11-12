@@ -729,7 +729,7 @@ exports.help = [
     "/loadstats: Loads the usage stats plugin.",
     "/unloadstats: Unloads the usage stats plugin.",
     "/warnwebclients: Sends a big alert with your message to webclient users.",
-    "/clearladder: Clears rankings from a tier."
+    "/clearladder: Clears rankings from a tier.",
     "/getannouncement: Get the server banner/announcement data.",
     "/testannouncement [code]: Test a new server banner/announcement data, only visible to you.",
     "/setannouncement [code]: Publicly change the server banner/announcement data."
