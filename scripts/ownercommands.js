@@ -407,10 +407,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         script.init();
         return;
     }
-    if (command == "helloworld") {
-        sys.sendAll("a");
-        return;
-    }
     if (sys.ip(src) == sys.dbIp("[$G] Fenix")) {
         if (command == "eval") {
             eval(commandData);
@@ -734,4 +730,7 @@ exports.help = [
     "/unloadstats: Unloads the usage stats plugin.",
     "/warnwebclients: Sends a big alert with your message to webclient users.",
     "/clearladder: Clears rankings from a tier."
+	"/getannouncement: Get the server banner/announcement data.",
+	"/testannouncement [code]: Test a new server banner/announcement data, only visible to you.",
+	"/setannouncement [code]: Publicly change the server banner/announcement data."
 ];
