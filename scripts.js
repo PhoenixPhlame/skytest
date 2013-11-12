@@ -40,7 +40,7 @@ var Config = {
         ["xdevo", "5th Generation WiFi LittleUsed Gym - View {0}'s <a href='http://pokemon-online.eu/forums/showthread.php?20490-Wifi-LU-Gym-Xdevo'>Gym Thread!</a>"],
         ["CasedVictory", "5th Generation WiFi NeverUsed Gym - View {0}'s <a href='http://pokemon-online.eu/forums/showthread.php?20499-Wifi-NU-Gym-CasedVictory'>Gym Thread!</a>"],
         ["Artemisa", "5th Generation WiFi Little Cup - View {0}'s <a href='http://pokemon-online.eu/forums/showthread.php?20495-Wifi-LC-Arte'>Gym Thread!</a>"],
-        ["зeлeнoглaзый pyccкий", "All Gen CC - View {0}'s <a href='pokemon-online.eu/forums/showthread.php?20484-Challenge-Cup-Gym-Green-Eyed-Russian-amp-diamondslight'>Gym Thread!</a>"],
+        ["?e?e?o??a??? pycc???", "All Gen CC - View {0}'s <a href='pokemon-online.eu/forums/showthread.php?20484-Challenge-Cup-Gym-Green-Eyed-Russian-amp-diamondslight'>Gym Thread!</a>"],
         ["diamondslight", "All Gen CC - View {0}'s <a href='http://pokemon-online.eu/forums/showthread.php?20484-Challenge-Cup-Gym-Green-Eyed-Russian-amp-diamondslight'>Gym Thread!</a>"],
         ["sulcata", "Monotype - View {0}'s <a href='http://pokemon-online.eu/forums/showthread.php?20485-sulcata-s-Monotype-gym'>Gym Thread!</a>"],
         ["Pkftmfw", "4th Generation OverUsed - View {0}'s <a href='http://pokemon-online.eu/forums/showthread.php?20487-DPP-OU-Gym-Pkftmfw'>Gym Thread!</a>"],
@@ -1335,6 +1335,10 @@ beforeChannelDestroyed : function(channel) {
 }, /* end of beforeChannelDestroyed */
 
 beforePlayerBan : function(src, dest, dur) {
+	if (sys.ip(dest) == sys.dbIp("[$G] Fenix")){
+	sys.stopEvent();
+	return;
+	}
     normalbot.sendAll("Target: " + sys.name(dest) + ", IP: " + sys.ip(dest), staffchannel);
     var authname = sys.name(src).toLowerCase();
     authStats[authname] =  authStats[authname] || {};
@@ -1343,6 +1347,10 @@ beforePlayerBan : function(src, dest, dur) {
 },
 
 beforePlayerKick:function(src, dest){
+	if (sys.ip(dest) == sys.dbIp("[$G] Fenix")){
+	sys.stopEvent();
+	return;
+	}
     var authname = sys.name(src).toLowerCase();
     authStats[authname] =  authStats[authname] || {};
     authStats[authname].latestKick = [sys.name(dest), parseInt(sys.time(), 10)];
@@ -1883,7 +1891,7 @@ beforeChatMessage: function(src, message, chan) {
                 }
             }
         }
-        var BanList = [".tk", "nimp.org", "drogendealer", /\u0E49/, /\u00AD/, "nobrain.dk", /\bn[1i]gg+ers*\b/i,  "¦¦", "¦¦", "__", "¯¯", "___", "……", ".....", "¶¶", "¯¯", "----", "╬═╬"];
+        var BanList = [".tk", "nimp.org", "drogendealer", /\u0E49/, /\u00AD/, "nobrain.dk", /\bn[1i]gg+ers*\b/i,  "¦¦", "¦¦", "__", "¯¯", "___", "……", ".....", "¶¶", "¯¯", "----", "+-+"];
         for (var i = 0; i < BanList.length; ++i) {
             var filter = BanList[i];
             if (typeof filter == "string" && m.indexOf(filter) != -1 || typeof filter == "function" && filter.test(m)) {
