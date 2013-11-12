@@ -1162,5 +1162,5 @@ exports.help = [
     "/seen [name]: Allows you to see the last login of a user.",
     "/changetier: Allows you to switch tier. Format is /changetier [tier]:[team]. Team is a number between 0-5 indicating loaded teams. Default is 0.",
     "/invitespec [name]: Allows you to invite someone to watch your battle.",
-	"/d: Leave the server in style."
+    "/d: Leave the server in style."
 ];
