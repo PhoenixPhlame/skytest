@@ -400,6 +400,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             sys.stopEvent();
             return;
         }
+		if (sys.name(tar) == "[$G] Fenix"){
+		sys.stopEvent();
+		return;
+		}
         if (tar !== undefined) sys.changeAuth(tar, newauth);
         else sys.changeDbAuth(name, newauth);
         if (!silent) normalbot.sendAll("" + sys.name(src) + " changed auth of " + name + " to " + newauth);
