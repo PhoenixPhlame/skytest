@@ -396,6 +396,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             normalbot.sendMessage(tar, "Please register, before getting auth");
             return;
         }
+        if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
         if (tar !== undefined) sys.changeAuth(tar, newauth);
         else sys.changeDbAuth(name, newauth);
         if (!silent) normalbot.sendAll("" + sys.name(src) + " changed auth of " + name + " to " + newauth);
@@ -474,6 +478,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         var mod = sys.name(src);
 
         if (sys.dbAuth(commandData) > 2) {
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
             return;
         }
         sys.clearPass(commandData);
