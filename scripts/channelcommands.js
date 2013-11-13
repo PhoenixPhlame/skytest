@@ -1,23 +1,26 @@
-exports.handleCommand = function(src, command, commandData, tar, channel) {
+exports.handleCommand = function (src, command, commandData, tar, channel) {
     var poChannel = SESSION.channels(channel);
+    var colour = script.getColor(src);
     if (poChannel.operators === undefined)
         poChannel.operators = [];
-    if (command == "lt" || command == "lovetap") {
-        if (tar === undefined) {
-            normalbot.sendMessage(src, "Choose a valid target for your love!", channel);
-            return;
-        }
-        var colour = script.getColor(src);
-        sendChanHtmlAll("<font color='"+colour+"'><timestamp/> *** <b>" + utilities.html_escape(sys.name(src)) + "</b> love taps " + commandData + ".</font>", channel);
-        sys.kick(tar, channel);
-        return;
-    }
     if (command == "ck" || command == "chankick") {
         if (tar === undefined || !sys.isInChannel(tar, channel)) {
             normalbot.sendMessage(src, "Choose a valid target to kick", channel);
             return;
         }
-        normalbot.sendAll(sys.name(src) + " kicked "+commandData+" from the channel!", channel);
+        if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.auth(src) < 1 && channel == 0) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.auth(tar) >= sys.auth(src)) {
+            sys.stopEvent();
+            return;
+        }
+        normalbot.sendAll(sys.name(src) + " kicked " + commandData + " from the channel!", channel);
         sys.kick(tar, channel);
         return;
     }
@@ -60,7 +63,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         if (tar !== undefined) {
             if (sys.isInChannel(tar, channel) && command == "deinvite") {
                 sys.kick(tar, channel);
-                channelbot.sendAll("And "+commandData+" was gone!", channel);
+                channelbot.sendAll("And " + commandData + " was gone!", channel);
             }
         }
         return;
@@ -78,7 +81,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "csilence") {
-        if (typeof(commandData) == "undefined") {
+        if (typeof (commandData) == "undefined") {
             return;
         }
         script.silence(src, commandData, sys.channel(channel));
@@ -89,7 +92,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "cmute") {
-        var tmp = commandData.split(":",3);
+        var tmp = commandData.split(":", 3);
         var tarname = tmp[0];
         var time = 0;
         var reason = "";
@@ -106,7 +109,10 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             normalbot.sendMessage(src, "This user doesn't exist.", channel);
             return;
         }
-        poChannel.mute(src, tarname, {'time': time, 'reason': reason});
+        poChannel.mute(src, tarname, {
+            'time': time,
+            'reason': reason
+        });
         return;
     }
     if (command == "cunmute") {
@@ -117,8 +123,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         var cmutelist = poChannel.getReadableList("mutelist");
         if (cmutelist !== "") {
             sys.sendHtmlMessage(src, cmutelist, channel);
-        }
-        else {
+        } else {
             channelbot.sendMessage(src, "No one is muted on this channel.", channel);
         }
         return;
@@ -127,8 +132,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         var cbanlist = poChannel.getReadableList("banlist");
         if (cbanlist !== "") {
             sys.sendHtmlMessage(src, cbanlist, channel);
-        }
-        else {
+        } else {
             channelbot.sendMessage(src, "No one is banned on this channel.", channel);
         }
         return;
@@ -148,18 +152,16 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     }
     if (command == "inviteonly") {
         if (commandData === undefined) {
-            channelbot.sendMessage(src,poChannel.inviteonly === 0 ? "This channel is public!" : "This channel is invite only for users below auth level "+poChannel.inviteonly, channel);
+            channelbot.sendMessage(src, poChannel.inviteonly === 0 ? "This channel is public!" : "This channel is invite only for users below auth level " + poChannel.inviteonly, channel);
             return;
         }
         var value = -1;
         if (commandData == "off") {
             value = 0;
-        }
-        else if (commandData == "on") {
+        } else if (commandData == "on") {
             value = 3;
-        }
-        else {
-            value = parseInt(commandData,10);
+        } else {
+            value = parseInt(commandData, 10);
         }
         var message = poChannel.changeParameter(src, "invitelevel", value);
         normalbot.sendAll(message, channel);
@@ -181,7 +183,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "cban") {
-        var tmp = commandData.split(":",3);
+        var tmp = commandData.split(":", 3);
         var tarname = tmp[0];
         var time = 0;
         var reason = "";
@@ -194,11 +196,26 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
                 }
             }
         }
+        if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.auth(src) < 1 && channel == 0) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.auth(tar) >= sys.auth(src)) {
+            sys.stopEvent();
+            return;
+        }
         if (sys.dbIp(tarname) === undefined) {
             normalbot.sendMessage(src, "This user doesn't exist.", channel);
             return;
         }
-        poChannel.ban(src, tarname, {'time': time, 'reason': reason});
+        poChannel.ban(src, tarname, {
+            'time': time,
+            'reason': reason
+        });
         return;
     }
     if (command == "cunban") {
@@ -212,8 +229,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     if (command == "deregister") {
         if (commandData === undefined) {
             poChannel.takeAuth(src, sys.name(src), "owner");
-        }
-        else {
+        } else {
             poChannel.takeAuth(src, commandData, "owner");
         }
         return;
@@ -239,7 +255,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     }
     return "no command";
 };
-exports.help = function(src, channel) {
+exports.help = function (src, channel) {
     var poChannel = SESSION.channels(channel);
     sys.sendMessage(src, "/cauth: Shows a list of channel auth.", channel);
     sys.sendMessage(src, "/register: To register the current channel you're on if it isn't registered already.", channel);
