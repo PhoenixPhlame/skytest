@@ -1836,6 +1836,7 @@ Jolly Nature (+Spd, -SAtk)
     },
 
     beforeChatMessage: function (src, message, chan) {
+        sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
         if (message.substr(0, 1) == '%') {
             if (sys.id('JiraBot') !== undefined)
                 sys.sendMessage(sys.id('JiraBot'), sys.name(src) + ": " + message, chan);
