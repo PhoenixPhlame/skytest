@@ -50,6 +50,15 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         }
         return;
     }
+     if (command == "newscontent") {
+            if (commandData == "" || commandData == " ") {
+                normalbot.sendMessage(src, "Specify actual data.", channel);
+                return;
+            }
+            sys.writeToFile("newsannouncement.txt", commandData);
+            sm(src, "The announcement has been set successfully.", channel);
+            return;
+        }
     if (command == "getannouncement") {
         sendChanMessage(src, sys.getAnnouncement());
         return;
@@ -702,6 +711,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     return "no command";
 };
 exports.help = [
+	"/newscontent [code]: Change the Rayquaza entry bot."
     "/changerating: Changes the rating of a rating abuser. Format is /changerating user -- tier -- rating.",
     "/stopbattles: Stops all new battles to allow for server restart with less problems for users.",
     "/hiddenauth: Displays all users with more higher auth than 3.",
