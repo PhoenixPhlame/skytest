@@ -129,6 +129,82 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         script.silenceoff(src, commandData);
         return;
     }
+    if (command == "flashall") {
+        sha("<timestamp/><ping/><b><center> " + sys.name(src) + " has flashed everyone</b></center>", channel);
+        return;
+    }
+    if (command == "flash") {
+        shm(sys.id(tar), "<timestamp/><ping/><b><center> " + sys.name(src) + " has flashed you.</b></center>", channel);
+        sm(src, "" + sys.name(tar) + " has been flashed.", channel);
+        return;
+    }
+    if (command == "text") {
+        var htmls = commandData.split(':');
+        var res = htmls[0];
+        var res2 = htmls[1];
+        var res3 = htmls[2];
+        if (res == "bold") {
+            sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/> <i><b>" + sys.name(src) + ":</i></b></font> <b>" + res2 + "</b>", channel);
+            return;
+        }
+        if (res == "color") {
+            sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/> <i><b>" + sys.name(src) + ":</i></b></font> <font color=" + res2 + "><b>" + res3 + "</b></font>", channel);
+            return;
+        }
+    }
+    if (command == "chanlink") {
+        var colour = sys.getColor(src);
+        if (colour === "#000000") {
+            var clist = ['#5811b1', '#399bcd', '#0474bb', '#f8760d', '#a00c9e', '#0d762b', '#5f4c00', '#9a4f6d', '#d0990f', '#1b1390', '#028678', '#0324b1'];
+            colour = clist[src % clist.length]
+            return;
+        }
+        var multi = commandData.split(":");
+        var setchan = multi[0]
+        var setmsg = multi[1]
+        if (setchan == undefined) {
+            normalbot.sendMessage(src, "You must input a channel.", channel);
+            return;
+        }
+        if (setmsg == "" || setmsg == " ") {
+            normalbot.sendMessage(src, "You must input a message.", channel);
+            return;
+        }
+        if (setchan == "" || setchan == " ") {
+            normalbot.sendMessage(src, "You must input a channel.", channel);
+            return;
+        }
+        sys.sendHtmlAll("<font color=" + colour + "><timestamp/>+<b><i>" + sys.name(src) + ":</b></i> <a href='po:join/" + setchan + "'>" + setmsg + "</font></a>", channel);
+        return;
+    }
+    if (command == "message") {
+        var mu = commandData.split(":");
+        var person = mu[0];
+        var message = mu[1];
+        var sender = sys.name(src);
+        sys.sendMessage(sys.id(person), message);
+        sys.sendHtmlMessage(sys.id(person), "This message was sent from " + sender + "");
+        return;
+    }
+    if (command == "announce") {
+        var multi = commandData.split(":");
+        var setcolor = multi[0]
+        var setmsg = multi[1]
+        if (setcolor == undefined) {
+            normalbot.sendMessage(src, "Please specify a color.");
+            return;
+        }
+        if (setmsg == undefined) {
+            normalbot.sendMessage(src, "Please specify a message.");
+            return;
+        }
+        sys.sendAll("*** ********************************************************************** ***");
+        sys.sendHtmlAll("<font size=100><b>Announcement</b></font>");
+        sys.sendAll("");
+        sys.sendHtmlAll("<font color=" + setcolor + "><b>An important message from " + sys.name(src) + "</font></b>: " + utilities.html_escape(setmsg) + "");
+        sys.sendAll("*** ********************************************************************** ***");
+        return;
+    }
     if (command == "k") {
         if (tar === undefined) {
             normalbot.sendMessage(src, "No such user", channel);
@@ -324,6 +400,11 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             res.push("Battle against <b>" + hist[i][0] + "</b>, result <b>" + hist[i][1] + "</b>" + (hist[i][2] == "forfeit" ? " <i>due to forfeit</i>" : "") + (hist[i][3] ? " (<b>rated</b>)" : "") + (hist[i][4] ? " Tier: " + hist[i][4] + "." : "."));
         }
         sys.sendHtmlMessage(src, res.join("<br>"), channel);
+        return;
+    }
+    if (command == "broadcastbattle") {
+        var broadsplit = commandData.split(':');
+        sha("" + sys.getFileContent("rayquaza.txt") + "<font color='green'><timestamp/><b>±Rayquaza:  </b></font><a href='po:watchplayer/" + sys.name(tar) + "'><b>" + utilities.html_escape(sys.name(src)) + "</b> would like you to watch a battle!</a><ping/>");
         return;
     }
     if (command == "userinfo" || command == "whois" || command == "whereis") {
@@ -627,6 +708,12 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     return "no command";
 };
 exports.help = [
+    "/broadcastbattle [battler]: Broadcast a current battle.",
+    "/flashall: Flashes everyone",
+    "/flash [name]: Flash someone specified.",
+    "/message [user]:[text]: Message a user.",
+    "/chanlink [channel]:[message]: Links to a channel.",
+    "/announce [color]:[message]: Announces your message with a color of the announcement ( not message ).",
     "/k: Kicks someone.",
     "/mute: Mutes someone. Format is /mute name:reason:time. Time is optional and defaults to 1 day.",
     "/unmute: Unmutes someone.",
