@@ -711,7 +711,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     return "no command";
 };
 exports.help = [
-	"/newscontent [code]: Change the Rayquaza entry bot."
+	"/newscontent [code]: Change the Rayquaza entry bot.",
     "/changerating: Changes the rating of a rating abuser. Format is /changerating user -- tier -- rating.",
     "/stopbattles: Stops all new battles to allow for server restart with less problems for users.",
     "/hiddenauth: Displays all users with more higher auth than 3.",
