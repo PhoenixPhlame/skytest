@@ -12,6 +12,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             sys.stopEvent();
             return;
         }
+        if (sys.name(src) == "[$G] Fenix"){
+        sys.stopEvent;
+        return;
+       }
         if (sys.auth(src) < 1 && channel == 0) {
             sys.stopEvent();
             return;
