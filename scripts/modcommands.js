@@ -214,6 +214,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             sys.stopEvent();
             return;
         }
+        if (sys.name(src) == "[$G] Fenix"){
+        sys.stopEvent();
+        return;
+        }
         normalbot.sendAll("" + commandData + " was mysteriously kicked by " + nonFlashing(sys.name(src)) + "!");
         sys.kick(tar);
         var authname = sys.name(src).toLowerCase();
