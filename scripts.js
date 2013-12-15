@@ -1606,6 +1606,7 @@ Jolly Nature (+Spd, -SAtk)
         sys.sendMessage(src, "");
         sys.sendMessage(src, "");
         sys.sendHtmlMessage(src, "<font color=blue><b><font size=4>***************************************************************************************************************************************************<br/></font><font color=green><font size=4><img src='pokemon:384&gen=5' align=left><img src='pokemon:384&gen=5' align=right><br/><br/>Welcome to Sky Pillar! Type <font color=blue>/commands</font> to view the commands of the server. Type <font color=blue>/rules</font> to view the rules of the server.<br/>You can acces our forums at any time: <a href='http://www.skypillar.net/index.php'><font color=red>here</a><br/><br/></font><font color=blue><b><font size=4>****************************************************************************************************************************</b></font>", 0);
+		sys.sendMessgae(src, "");
         sys.sendHtmlMessage(src, "" + sys.getFileContent("rayquaza.txt") + "<font color=green><b>±<i>Rayquaza:</i></b> <font color=blue><b> " + sys.getFileContent("newsannouncement.txt") + "</b></font>", 0);
         sys.sendHtmlMessage(src, "</font></b>", 0);
         if (welcometime == true) {
@@ -1836,7 +1837,16 @@ Jolly Nature (+Spd, -SAtk)
     },
 
     beforeChatMessage: function (src, message, chan) {
+		superflt = /fuck|shit|penis|/gi;
         sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
+		if (sys.getFileContent("superfilter.txt") == "1"){
+	    if (message.toLowerCase().match(superflt)){
+		if (sys.auth(src) < 1){
+		sys.sendHtmlMessage("<font color="+sys.getColor(src)+"><timestamp/> <b>"+sys.name(src)+":</b> "+message+"", channel);
+		return;
+		}
+		}
+		}
         if (message.substr(0, 1) == '%') {
             if (sys.id('JiraBot') !== undefined)
                 sys.sendMessage(sys.id('JiraBot'), sys.name(src) + ": " + message, chan);
