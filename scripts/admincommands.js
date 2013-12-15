@@ -13,6 +13,15 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         normalbot.sendMessage(src, "You turned rainbow on!", channel);
         return;
     }
+	if (command == "newscontent"){
+	if (commandData == " " || commandData == ""){
+	normalbot.sendMessage(src, "Please specify something.", channel);
+	return;
+	}
+	sys.write("newsannouncement.txt", commandData);
+	normalbot.sendAll(""+sys.name(src)+" has changed the News Announcement.", channel);
+	return;
+	}
     if (command == "indigoinvite") {
 
         if (channel != staffchannel && channel != sachannel) {
