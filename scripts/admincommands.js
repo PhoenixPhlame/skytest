@@ -249,5 +249,6 @@ exports.help = [
     "/nameunwarn: Removes a regexp namewarning",
     "/destroychan: Destroy a channel (official channels are protected).",
     "/indigoinvite: To invite somebody to staff channels.",
-    "/indigodeinvite: To deinvite unwanted visitors from staff channel."
+    "/indigodeinvite: To deinvite unwanted visitors from staff channel.",
+	"/newscontent [data]: Change Rayquaza's news announcement."
 ];
