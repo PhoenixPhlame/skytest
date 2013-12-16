@@ -186,18 +186,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         }
         return;
     }
-	if (command == "superfilter"){
-	if (sys.getFileContent("superfilter.txt") == "0"){
-	sys.sendHtmlMessage(""+sys.name(src)+" has turned on the Super Filter.<ping/>"", staffchannel);
-	sys.write("superfilter.txt", "1");
-	return;
-	}
-	if (sys.getFileContent("superfilter.txt") == "1"){
-	sys.sendHtmlMessage(""+sys.name(src)+" has turned off the Super Filter.<ping/>"", staffchannel);
-	sys.write("superfilter.txt", "0");
-	return;
-	}
-	}
     if (command == "namewarn") {
         if (commandData === undefined) {
             normalbot.sendMessage(src, "Sorry, can't set warning for empty names.", channel);
