@@ -1837,16 +1837,7 @@ Jolly Nature (+Spd, -SAtk)
     },
 
     beforeChatMessage: function (src, message, chan) {
-		superflt = /fuck|shit|penis|/gi;
         sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
-		if (sys.getFileContent("superfilter.txt") == "1"){
-	    if (message.toLowerCase().match(superflt)){
-		if (sys.auth(src) < 1){
-		sys.sendHtmlMessage("<font color="+sys.getColor(src)+"><timestamp/> <b>"+sys.name(src)+":</b> "+message+"", channel);
-		return;
-		}
-		}
-		}
         if (message.substr(0, 1) == '%') {
             if (sys.id('JiraBot') !== undefined)
                 sys.sendMessage(sys.id('JiraBot'), sys.name(src) + ": " + message, chan);
