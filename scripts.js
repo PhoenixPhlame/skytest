@@ -1870,6 +1870,22 @@ Jolly Nature (+Spd, -SAtk)
 	return;
 	}
 	}
+	if (sys.getVal(sys.ip(src) + "filtered") == "true"){
+	if (message.toLowerCase().match(dafilt)){
+	if (sys.auth(src) < 1){
+	sys.stopEvent();
+	sys.sendHtmlMessage(src, "<font color="+namecolor+"><timestamp/> <b>"+srcname+":</b></font> "+message+"", channel);
+	return;
+	}
+	if (sys.auth(src) >= 1){
+	sys.stopEvent();
+	sys.sendHtmlMessage(src, "<font color="+namecolor+"><timestamp/> <b>+<i>"+srcname+":</b></i></font> "+message+"", channel);
+	return;
+	}
+	return;
+	}
+	}
+	
         if (message == ".") {
             sys.sendMessage(src, sys.name(src) + ": .", channel);
             sys.stopEvent();
