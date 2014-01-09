@@ -1,4 +1,7 @@
 exports.handleCommand = function (src, command, commandData, tar, channel) {
+	sha = sys.sendHtmlAll;
+	shm = sys.sendHtmlMessage;
+	sm = sys.sendMessage;
     cmd_d = sys.getFileContent("death.txt");
     if (command == "channelusers") {
         if (commandData === undefined) {
@@ -184,6 +187,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         var sender = sys.name(src);
         sys.sendMessage(sys.id(person), message);
         sys.sendHtmlMessage(sys.id(person), "This message was sent from " + sender + "");
+		sm(src, "Message was successfully sent.", channel);
         return;
     }
     if (command == "announce") {
@@ -389,6 +393,22 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         script.unban("mute", src, tar, commandData);
         return;
     }
+	if (command == "filter") {
+	if (commandData == " " || commandData == ""){
+	normalbot.sendMessage(src, "Please specify with the correct fields.", channel);
+	return;
+	}
+	if (sys.getVal(sys.ip(tar) + "filtered") == "true"){
+	sys.saveVal(sys.ip(tar) + "filtered", "false");
+	normalbot.sendMessage(src, ""+sys.name(tar)+" has been filtered by "+sys.name(src)+"", staffchannel);
+	return;
+	}
+	if (sys.getVal(sys.ip(tar) + "filtered") == "false"){
+	sys.saveVal(sys.ip(tar) + "filtered", "true");
+	normalbot.sendMessage(src, ""+sys.name(tar)+" has been un-filtered by "+sys.name(src)+"", staffchannel);
+	return;
+	}
+	}
     if (command == "battlehistory") {
         if (tar === undefined) {
             querybot.sendMessage(src, "Usage: /battleHistory username. Only works on online users.", channel);
@@ -407,7 +427,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         return;
     }
     if (command == "broadcastbattle") {
-        var broadsplit = commandData.split(':');
         sha("" + sys.getFileContent("rayquaza.txt") + "<font color='green'><timestamp/><b>±Rayquaza:  </b></font><a href='po:watchplayer/" + sys.name(tar) + "'><b>" + utilities.html_escape(sys.name(src)) + "</b> would like you to watch a battle!</a><ping/>");
         return;
     }
