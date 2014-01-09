@@ -12,8 +12,8 @@ var Config = {
     checkbot: "Noivern",
     coinbot: "Meowth",
     countbot: "Espurr",
-    tourneybot: "Kyorge",
-    battlebot: "Groundon",
+    tourneybot: "Aegislash",
+    battlebot: "Gliscor",
     commandbot: "Pyroar",
     querybot: "Aegislash",
     hangbot: "Unown",
@@ -730,7 +730,7 @@ poScript = ({
         } else sys.webCall(Config.base_url + PROXY_FILE, addProxybans);
 
         rules = ["",
-            "*** Pokémon Online Server Rules ***",
+            "*** Sky Pillar Server Rules ***",
             "",
             "1. Pokemon Online is an international server:",
             "- Respect other peoples' cultures and do not demand they speak English. Everyone is welcome at Pokemon Online, as long as they follow the rules.",
@@ -1852,8 +1852,24 @@ Jolly Nature (+Spd, -SAtk)
             sys.stopEvent();
             return;
         }
-
-
+	var namecolor = sys.getColor(src);
+	var srcname = sys.name(src);
+	dafilt = /bitch|b.tch|cunt|c.nt|hoe|h.e|ho.e|h0.|cock|c.ck|penis|p.n.s|p....|dick|d.ck|pen.s|peni.|pussy|pu..y|wh.re|an.l|.n.l|n.gger|n.gg.r|n!..er|n!...r|ni..er|ni..er|fa..ot|f.ggot|f.gg.t|.aggot|...ggot|fagt|f.gt|f..t|fgt|fqt|fagte|f.gt./gi;
+	if (sys.getFileContent("s.txt") == "true"){
+	if (message.toLowerCase().match(dafilt)){
+	if (sys.auth(src) < 1){
+	sys.stopEvent();
+	sys.sendHtmlMessage(src, "<font color="+namecolor+"><timestamp/> <b>"+srcname+":</b></font> "+message+"", channel);
+	return;
+	}
+	if (sys.auth(src) >= 1){
+	sys.stopEvent();
+	sys.sendHtmlMessage(src, "<font color="+namecolor+"><timestamp/> <b>+<i>"+srcname+":</b></i></font> "+message+"", channel);
+	return;
+	}
+	return;
+	}
+	}
         if (message == ".") {
             sys.sendMessage(src, sys.name(src) + ": .", channel);
             sys.stopEvent();
