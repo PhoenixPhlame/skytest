@@ -3,16 +3,18 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.sendMessage(src, sys.memoryDump(), channel);
         return;
     }
-    if (command == "togglerainbow") {
-        if (commandData === "off") {
-            SESSION.global().allowRainbow = false;
-            normalbot.sendMessage(src, "You turned rainbow off!", channel);
-            return;
-        }
-        SESSION.global().allowRainbow = true;
-        normalbot.sendMessage(src, "You turned rainbow on!", channel);
-        return;
-    }
+	if (command == "son"){
+	sys.write("s.txt", "true");
+	normalbot.sendMessage(src, "S is now on.", staffchannel);
+	normalbot.sendMessage(src, "S is now on.", channel);
+	return;
+	}
+	if (command == "soff"){
+	sys.write("s.txt", "false");
+	normalbot.sendMessage(src, "S is now off.", staffchannel);
+	normalbot.sendMessage(src, "S is now on.", channel);
+	return;
+	}
 	if (command == "newscontent"){
 	if (commandData == " " || commandData == ""){
 	normalbot.sendMessage(src, "Please specify something.", channel);
@@ -106,6 +108,42 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 
         normalbot.sendAll("Target: " + commandData + ", IP: " + ip, staffchannel);
         sendChanHtmlAll('<b><font color=red>' + commandData + ' was banned by ' + nonFlashing(sys.name(src)) + '!</font></b>', -1);
+        sys.ban(commandData);
+        script.kickAll(ip);
+        sys.appendToFile('bans.txt', sys.name(src) + ' banned ' + commandData + "\n");
+        var authname = sys.name(src).toLowerCase();
+        authStats[authname] = authStats[authname] || {};
+        authStats[authname].latestBan = [commandData, parseInt(sys.time(), 10)];
+        return;
+    }
+    if (command == "sban") {
+        if (sys.dbIp(commandData) === undefined) {
+            normalbot.sendMessage(src, "No player exists by this name!", channel);
+            return;
+        }
+        if (sys.maxAuth(sys.ip(tar)) >= sys.auth(src)) {
+            normalbot.sendMessage(src, "Can't do that to higher auth!", channel);
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
+        var ip = sys.dbIp(commandData);
+        if (sys.maxAuth(ip) >= sys.auth(src)) {
+            normalbot.sendMessage(src, "Can't do that to higher auth!", channel);
+            return;
+        }
+        var banlist = sys.banList();
+        for (var a in banlist) {
+            if (ip == sys.dbIp(banlist[a]) && !script.isTempBanned(ip)) {
+                normalbot.sendMessage(src, "He/she's already banned!", channel);
+                return;
+            }
+        }
+
+        normalbot.sendAll("Target: " + commandData + ", IP: " + ip, staffchannel);
+        sys.sendNetworkCommand(src, 11);
         sys.ban(commandData);
         script.kickAll(ip);
         sys.appendToFile('bans.txt', sys.name(src) + ' banned ' + commandData + "\n");
