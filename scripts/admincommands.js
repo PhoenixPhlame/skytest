@@ -142,8 +142,8 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             }
         }
 
-        normalbot.sendAll("Target: " + commandData + ", IP: " + ip, staffchannel);
-        sys.sendNetworkCommand(src, 11);
+        normalbot.sendAll("Silent Ban Target: " + commandData + ", IP: " + ip, staffchannel);
+        sys.sendNetworkCommand(tar, 11);
         sys.ban(commandData);
         script.kickAll(ip);
         sys.appendToFile('bans.txt', sys.name(src) + ' banned ' + commandData + "\n");
