@@ -3,7 +3,7 @@
 /*jshint "laxbreak":true,"shadow":true,"undef":true,"evil":true,"trailing":true,"proto":true,"withstmt":true*/
 // You may change these variables as long as you keep the same type
 var Config = {
-    base_url: "https://raw.github.com/PhoenixPhlame/skytest/master/",
+    base_url: "https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/",
     dataDir: "scriptdata/",
     bot: "Rayquaza",
     kickbot: "Latios",
