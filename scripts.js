@@ -1605,7 +1605,6 @@ Jolly Nature (+Spd, -SAtk)
         sys.sendMessage(src, "");
         sys.sendMessage(src, "");
         sys.sendMessage(src, "");
-        sys.sendHtmlMessage(src, "<hr/><font color=#330033><font face=Garamond><font size=20><b><strong><center>Pokemon Dimension</center></b></strong><br/><font size=10><center>Forums (Coming Soon)</center><hr/></font></font>", 0);
 		sys.sendMessgae(src, "");
         sys.sendHtmlMessage(src, "</font></b>", 0);
         if (welcometime == true) {
