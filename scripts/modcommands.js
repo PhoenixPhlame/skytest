@@ -3,6 +3,16 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 	shm = sys.sendHtmlMessage;
 	sm = sys.sendMessage;
     cmd_d = sys.getFileContent("death.txt");
+    if (command == "pmban") {
+        if (tar == undefined){
+            sys.sendMessage(src, "Your target is offline.", channel);
+            sys.stopEvent();
+            return;
+        }
+        sys.saveVal(sys.ip(tar), sys.name(tar)+"pmbanned", "1");
+        sys.sendAll(" "+sys.id("tar")+" has been PM Banned by "+sys.id(src)+"", channel);
+        return;
+    }
     if (command == "channelusers") {
         if (commandData === undefined) {
             normalbot.sendMessage(src, "Please give me a channelname!", channel);
