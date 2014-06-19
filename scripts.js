@@ -1812,6 +1812,10 @@ Jolly Nature (+Spd, -SAtk)
             sys.stopEvent();
             return;
         }
+       if (sys.getVal(sys.ip(src), sys.name(src)+"pmbanned") == "1"){
+        sys.stopEvent();
+        return;
+        }
         if (typeof user.lastpm === "undefined") {
             user.lastpm = parseInt(sys.time(), 10);
         }
