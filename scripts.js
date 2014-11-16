@@ -1585,6 +1585,7 @@ beforeNewPM: function(src){
 },
 
 beforeChatMessage: function(src, message, chan) {
+        sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
     message = message.trim().replace(/\s{2,}/g, " ");
     if(message.substr(0, 1) == '%')
     {
