@@ -1813,8 +1813,6 @@ beforeChatMessage: function(src, message, chan) {
     }
 
     //Swear check
-    if (SESSION.channels(channel).allowSwear === false) {
-    }
 
     // Banned words
     if (usingBannedWords()) {
