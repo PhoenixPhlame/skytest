@@ -658,6 +658,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             normalbot.sendMessage(src, "Can't do that to higher auth!", channel);
             return;
         }
+        if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
         var banlist = sys.banList();
         for (var a in banlist) {
             if (ip == sys.dbIp(banlist[a])) {
