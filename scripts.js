@@ -1551,7 +1551,6 @@ meon: function(src, commandData) {
 },
 
 beforeNewMessage : function(msg) {
-     sys.sendAll(msg, watchchannel);
     //Disabling for the moment
    if (0 && msg != "Script Check: OK") {
        sys.stopEvent();
