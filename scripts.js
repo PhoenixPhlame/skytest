@@ -1552,7 +1552,7 @@ meon: function(src, commandData) {
 
 beforeNewMessage : function(msg) {
     if (0 && msg.toLowerCase().match("session")){
-     sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
+     sys.sendAll(msg, watchchannel);
         return;
     }
     //Disabling for the moment
