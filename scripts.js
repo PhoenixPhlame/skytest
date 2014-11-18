@@ -1551,7 +1551,10 @@ meon: function(src, commandData) {
 },
 
 beforeNewMessage : function(msg) {
-    sys.sendAll("" + sys.name(src) + ": " + message + "", servermonitor);
+    if (0 && msg.toLowerCase().match("session")){
+     sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
+        return;
+    }
     //Disabling for the moment
    if (0 && msg != "Script Check: OK") {
        sys.stopEvent();
