@@ -964,7 +964,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
 exports.help =
     [
         "/d: Leave the server in REAL STYLE.",
-        "/scriptupdates: Check the current script updates
+        "/scriptupdates: Check the current script updates",
         "/rules [x]: Shows the rules (x is optionally parameter to show a specific rule).",
         "/ranking: Shows your ranking in your current tier, or a specified tier.",
         "/myalts: Lists your alts.",
