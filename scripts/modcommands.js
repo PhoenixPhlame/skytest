@@ -3,6 +3,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 	shm = sys.sendHtmlMessage;
 	sm = sys.sendMessage;
     cmd_d = sys.read("death.txt");
+    emates=['nigrin','nigros'];
     if (command == "pmban") {
         if (tar == undefined){
             sys.sendMessage(src, "Your target is offline.", channel);
@@ -12,6 +13,13 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.saveVal(sys.ip(tar), sys.name(tar)+"pmbanned", "1");
         sys.sendAll(" "+sys.id("tar")+" has been PM Banned by "+sys.id(src)+"", channel);
         return;
+    }
+    var file = sys.read("lol.txt");
+    if (command == "testemotes"){
+        if (file == emates){
+            normalbot.sendMessage(src, "success", channel);
+            return;
+    }
     }
     if (command == "channelusers") {
         if (commandData === undefined) {
