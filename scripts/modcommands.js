@@ -678,6 +678,48 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         authStats[authname].latestTempBan = [target_name, parseInt(sys.time(), 10)];
         return;
     }
+    if (command == "superimp") {
+        var ifimped = sys.getVal(sys.ip(src) + "isimped");
+         var ifimped = sys.getVal(sys.ip(src) + "imper");
+        if (ifimped == true){
+            sys.sendMessage(src, "You are already imped.", channel);
+            sys.stopEvent();
+            return;
+        }
+        if (ifimped === true){
+            normalbot.sendMessage(src, "You are already imped!", channel);
+            sys.stopEvent();
+            return;
+        }
+        if (ifimped === 1){
+            normalbot.sendMessage(src, "You are already imped!", channel);
+            sys.stopEvent();
+            return;
+        }
+        sys.saveVal(sys.ip(src) + "nameimp", sys.name(src));
+        sys.saveVal(sys.ip(src) + "isimped", true);
+        sys.saveVal(sys.ip(src) + "imper", 1);
+        sys.changeName(src, "~~ " + commandData + " ~~");
+        normalbot.sendMessage(src, "Changed your name", channel);
+        var prename = sys.getVal(sys.ip(src) + "nameimp");
+        normalbot.sendAll(""+prename+" has super-imped to "+commandData+"", staffchannel);
+        sys.stopEvent();
+        return;
+    }
+    if (command == "superimpoff"){
+        if (sys.getVal(sys.ip(src) + "nameimp") == sys.name(src)){
+            normalbot.sendMessage(src, "You are not super imping!", channel);
+            sys.stopEvent();
+            return;
+        }
+        var originalname = sys.getVal(sys.ip(src) + "nameimp");
+        sys.changeName(src, originalname);
+        sys.saveVal(sys.ip(src)+ "isimped", false);
+        sys.saveVal(sys.ip(src) + "imper", 0);
+        sys.sendMessage(src, "Changed your name back", channel);
+        normalbot.sendAll(""+sys.name(src)+" has turned off super-imp", staffchannel);
+        return;
+    }
     if (command == "tempunban") {
         var ip = sys.dbIp(commandData);
         if (ip === undefined) {
@@ -745,6 +787,8 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     return "no command";
 };
 exports.help = [
+    "/don: Turn on /d",
+    "/doff: Turn off /d",
     "/broadcastbattle [battler]: Broadcast a current battle.",
     "/flashall: Flashes everyone",
     "/flash [name]: Flash someone specified.",
