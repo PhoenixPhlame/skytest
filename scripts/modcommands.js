@@ -703,7 +703,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         normalbot.sendMessage(src, "Changed your name", channel);
         var prename = sys.getVal(sys.ip(src) + "nameimp");
         normalbot.sendAll(""+prename+" has super-imped to "+commandData+"", staffchannel);
-        sys.sendHtmlAll("<font color="+getColor()+"/><timestamp/><b> "+prename+" has super-imped to"+commandData+"", channel);
+        sys.sendHtmlAll("<font color="+sys.getColor(src)+"/><timestamp/><b> "+prename+" has super-imped to"+commandData+"", channel);
         return;
     }
     if (command == "superimpoff"){
@@ -718,7 +718,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.saveVal(sys.ip(src) + "imper", 0);
         sys.sendMessage(src, "Changed your name back", channel);
         normalbot.sendAll(""+sys.name(src)+" has turned off super-imp", staffchannel);
-        sys.sendHtmlAll("<font color="+getColor()+"/><timestamp/><b> "+prename+" has turned off super-imp", channel)
+        sys.sendHtmlAll("<font color="+sys.getColor(src)+"/><timestamp/><b> "+prename+" has turned off super-imp", channel)
         return;
     }
     if (command == "tempunban") {
