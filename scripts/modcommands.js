@@ -2,7 +2,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 	sha = sys.sendHtmlAll;
 	shm = sys.sendHtmlMessage;
 	sm = sys.sendMessage;
-    cmd_d = sys.getFileContent("death.txt");
+    cmd_d = sys.read("death.txt");
     if (command == "pmban") {
         if (tar == undefined){
             sys.sendMessage(src, "Your target is offline.", channel);
@@ -699,11 +699,11 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.saveVal(sys.ip(src) + "nameimp", sys.name(src));
         sys.saveVal(sys.ip(src) + "isimped", true);
         sys.saveVal(sys.ip(src) + "imper", 1);
+        var prename = sys.getVal(sys.ip(src) + "nameimp");
+        sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/><b> "+prename+" has super-imped to "+commandData+"</font>", channel);
         sys.changeName(src, "~~" + commandData + "~~");
         normalbot.sendMessage(src, "Changed your name", channel);
-        var prename = sys.getVal(sys.ip(src) + "nameimp");
         normalbot.sendAll(""+prename+" has super-imped to "+commandData+"", staffchannel);
-        sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/><b> "+prename+" has super-imped to "+commandData+"", channel);
         return;
     }
     if (command == "superimpoff"){
@@ -716,9 +716,9 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.changeName(src, originalname);
         sys.saveVal(sys.ip(src)+ "isimped", false);
         sys.saveVal(sys.ip(src) + "imper", 0);
-        sys.sendMessage(src, "Changed your name back", channel);
         normalbot.sendAll(""+sys.name(src)+" has turned off super-imp", staffchannel);
-        sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/><b> "+originalname+" has turned off super-imp", channel)
+        sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/><b> "+originalname+" has turned off super-imp</font>", channel)
+        sys.sendMessage(src, "Changed your name back", channel);
         return;
     }
     if (command == "tempunban") {
