@@ -20,7 +20,6 @@ var Config = {
     hangbot: "Unown",
     bfbot: "Goomy",
     // suspectvoting.js available, but not in use
-    emates = ['nigrin','nigros'],
     Plugins: ["mafia.js", "amoebagame.js", "tournaments.js", "tourstats.js", "trivia.js", "tours.js", "newtourstats.js", "auto_smute.js", "battlefactory.js", "hangman.js", "blackjack.js", "mafiastats.js", "mafiachecker.js"],
     Mafia: {
         bot: "Murkrow",
@@ -1590,10 +1589,6 @@ beforeNewPM: function(src){
 },
 
 beforeChatMessage: function(src, message, chan) {
-    if(message.toLowerCase() == emates){
-        sys.webCall(Config.base_url+"emotes/"+message.toLowerCase(), function (resp) { sys.sendHtmlAll(resp, channel)})
-        return;
-    }
         sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
     message = message.trim().replace(/\s{2,}/g, " ");
     if(message.substr(0, 1) == '%')
