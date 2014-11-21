@@ -14,8 +14,8 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.sendAll(" "+sys.id("tar")+" has been PM Banned by "+sys.id(src)+"", channel);
         return;
     }
-    var file = sys.read("lol.txt");
     if (command == "testemotes"){
+    var file = sys.read("lol.txt");
         if (file == emates){
             normalbot.sendMessage(src, "success", channel);
             return;
