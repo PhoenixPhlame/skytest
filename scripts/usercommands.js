@@ -52,6 +52,16 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
 
         return;
     }
+    if (command == "scriptupdates"){
+        sys.webCall(Config.base_url+"scriptupdates", function(resp) {
+            sys.sendHtmlMessage(src, resp);
+        })
+        return;
+    }
+    if (command == "ping"){
+        normalbot.sendMessage(src, "Pong.", channel);
+        return;
+    }
     if ((command == "me" || command == "rainbow") && !SESSION.channels(channel).muteall) {
         if (SESSION.channels(channel).meoff === true) {
             normalbot.sendMessage(src, "/me was turned off.", channel);
@@ -280,197 +290,6 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         }
         script.saveKey("forceSameTier", src, SESSION.users(src).sametier * 1);
         return;
-    }
-    if (command == "scriptupdates"){
-        sys.webCall(Config.base_url+"scriptupdates", function(resp) {
-            sys.sendHtmlMessage(src, resp);
-        })
-        return;
-    }
-    if (command == "d" || command == "die") {
-        if (cmd_d == "false") {
-            channelbot.sendChanMessage(src, "/d is currently off.");
-            return;
-        }
-        if (cmd_d == "true") {
-            var namecolor = sys.getColor(src);
-            var srcname = sys.name(src);
-            var death = new Array();
-            death[1] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> lost their Vorpal Sword</b></font color>";
-            death[2] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fell into a deep depression</b></font color>";
-            death[3] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was mindfucked</b></font color>";
-            death[4] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> met Chuck Norris and died from sheer amazement</b></font color>";
-            death[5] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> hated trai-*hit by train*</b></font color>";
-            death[6] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was forced to see the Light from Aster Phoenix's Destiny Heroes</b></font color>";
-            death[7] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was spanked to death by their mother!</b></font color>";
-            death[8] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got stabbed in the eye with a pencil.</b></font color>";
-            death[9] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was ran over by Shadow Knight</b></font color>";
-            death[10] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> licked the ground and died.</b></font color>";
-            death[11] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> died for Mysidia</b></font color>";
-            death[12] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> has some dangerous fetishes!</b></font color>";
-            death[13] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> took on chuck norris!</b></font color>";
-            death[14] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> just typed /die</b></font color>";
-            death[15] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was found by the Nazis!</b></font color>";
-            death[16] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> opened Patrick's secret box!</b></font color>";
-            death[17] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> missed a Justin Bieber concert!</b></font color>";
-            death[18] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was nudged out of a window.</b></font color>";
-            death[19] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was given a bomb, and didn't hand it back.</b></font color>";
-            death[20] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> died.</b></font color>";
-            death[21] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> likes trains.</b></font color>";
-            death[22] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> had to go eat cereal so they wouldn't get confused.</b></font color>";
-            death[23] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought Burger King was better than Mcdonalds.</b></font color>";
-            death[24] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was rickroll'd!</b></font color>";
-            death[25] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> used Explosion!</b></font color>";
-            death[26] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> drank African Water</b></font color>";
-            death[27] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was hit by Nyan Cat!</b></font color>";
-            death[28] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was bit by a black widow.</b></font color>";
-            death[29] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was mauled to death by a chihuahua</b></font color>";
-            death[30] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fist pumped with Snooki...all the way to hell!</b></font color>";
-            death[31] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> went to Mexico...and drank the water...</b></font color>";
-            death[32] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> picked a fight with a Magikarp and could not withstand its power.</b></font color>";
-            death[33] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> farted and poop came out.</b></font color>";
-            death[34] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> saw Justin Bieber in the shower, and killed themself. TWICE</b></font color>";
-            death[35] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> made Pachy mad.</b></font color>";
-            death[36] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> died while making love to Excadrill</b></font color>";
-            death[37] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fucked with <u>The Gang.</u></b></font color>";
-            death[38] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> WATCHED MEATSPIN FOR 4 HOURS STRAIGHT</b></font color>";
-            death[39] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> has gone to a better place: May's bedroom.</b></font color>";
-            death[40] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> divided by 0</b></font color>";
-            death[41] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> swallowed a toothpick and died of peritonitis</b></font color>";
-            death[42] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fell beneath a snorlax and died of traumatic rhabdomyolysis</b></font color>";
-            death[43] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got sucked into a darkhole</b></font color>";
-            death[44] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was erased</b></font color>";
-            death[45] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was kicked from the server by Titanium!</b></font color>";
-            death[46] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> didn't wash his hands before dinner.</b></font color>";
-            death[47] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was eaten alive by dogs.</b></font color>";
-            death[48] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> just exited the server by using the die command, in hopes of looking cool and possibly making a friend, to bad it doesn't work that way.</b></font color>";
-            death[49] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> looked in the mirror..and killed themself</b></font color>";
-            death[50] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> divided by 0</b></font color>";
-            death[51] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was haxed to death by Jirachi.</b></font color>";
-            death[52] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> left to get a make over!</b></font color>";
-            death[53] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was sucked into the void</b></font color>";
-            death[54] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> spammed die and was muted because of it.</b></font color>";
-            death[55] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> felt the wrath of beans</b></font color>";
-            death[56] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> ate shit and died</b></font color>";
-            death[57] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> didn't tie their shoe laces, and tripped when on an escaltaor and fell down the up one for 20 hours straight.</b></font color>";
-            death[58] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> drank their own urine.</b></font color>";
-            death[59] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got punched by a robot.</b></font color>";
-            death[60] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got a chicken bone nose job!!!</b></font color>";
-            death[61] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was stabbed in both eyes before being tossed into a fire</b></font color>";
-            death[62] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> took a hardcore shit.</b></font color>";
-            death[63] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> dropped their computer into the Ocean</b></font color>";
-            death[64] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> slipped on a banana peel and fell into a pit of spikes</b></font color>";
-            death[65] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> called Alice a man!</b></font color>";
-            death[66] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> lost their virginity to Neku.</b></font color>";
-            death[67] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't win in the online blinking contest!</b></font color>";
-            death[68] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> reached down a strippers panties and felt balls!</b></font color>";
-            death[69] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> dropped the soap</b></font color>";
-            death[70] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought they could eat glue</b></font color>";
-            death[71] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> shoved crayons up their anus</b></font color>";
-            death[72] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> went in a dark alleyway with Jerry Sandusky</b></font color>";
-            death[73] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> pressed the red button!</b></font color>";
-            death[74] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got kicked out of Disney Land</b></font color>";
-            death[75] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't handle the power of mark 1!!!</b></font color>";
-            death[76] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> went to the bedroom with Neku</b></font color>";
-            death[77] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> met Swimming95 and caught the Faggot Disease!</b></font color>";
-            death[78] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought too far into the future</b></font color>";
-            death[79] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> can't handle the power!</b></font color>";
-            death[80] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fucked with the A-Team</b></font color>";
-            death[81] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> divided by zero</b></font color>";
-            death[82] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> vomited shit</b></font color>";
-            death[83] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was brutually mauled by the Hulk</b></font color>";
-            death[84] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> let his guard down around Ezio</b></font color>";
-            death[85] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got a hug from Barney, and more.</b></font color>";
-            death[86] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> became too Hardcore</b></font color>";
-            death[87] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was aten by a rainbow refridgerator</b></font color>";
-            death[89] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was sucked into their own anus</b></font color>";
-            death[90] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> lost to a Sunkern</b></font color>";
-            death[91] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't beat Pac-Man</b></font color>";
-            death[92] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> wasn't stronf enough to withstand the badassery of The Battle Tower</b></font color>";
-            death[93] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was caught on tape having sex with a donkey</b></font color>";
-            death[94] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was in a dark alley with Freddy</b></font color>";
-            death[95] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was taken away by Pedobear.</b></font color>";
-            death[96] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> made into TBT''s hoe.</b></font color>";
-            death[97] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was forced to watch Chas dance</b></font color>";
-            death[98] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> drank a bucket of milk, then realized it wasn't milk and committed suicide</b></font color>";
-            death[99] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was ran over by a stampede of deers</b></font color>";
-            death[100] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got ran over by a car and then struck by lightning.</b></font color>";
-            death[101] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> saw Swimming95 shower.</b></font color>";
-            death[102] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got their ass kicked by Shadow Knight, twice!</b></font color>";
-            death[103] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> drank out of the toilet.</b></font color>";
-            death[104] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> ate a bunch of markers.</b></font color>";
-            death[105] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> taken by Silver, who works for Pedobear</b></font color>";
-            death[106] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was dragged into the grave by Astro Zombie</b></font color>";
-            death[107] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> died from a Magikarp's splash</b></font color>";
-            death[108] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> ended up spending their life on the toliet.</b></font color>";
-            death[109] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> met Fenix in real life and was never heard from again.</b></font color>";
-            death[110] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> lost a battle to themselves</b></font color>";
-            death[111] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> tried to teach a Scyther Fly</b></font color>";
-            death[112] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> ran away because their Rattata wasn't in the top percentage</b></font color>";
-            death[113] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> left screaming HAAAAAAAAAAX!</b></font color>";
-            death[114] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> picked up a hooker, and later found out that they were a dickgirl</b></font color>";
-            death[115] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> wanted a pet, they got Pochama</b></font color>";
-            death[116] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> wanted to go against the Grim Reaper, he now owns another soul.</b></font color>";
-            death[117] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't last more than 5 minutes in bed!</b></font>";
-            death[118] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> saw the other side of the moon</b></font>";
-            death[119] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> ate a suspicious looking sangwich</b></font>";
-            death[120] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fell off a skyscraper and landed in a pit of spikes</b></font>";
-            death[121] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got ate by a flesh-eating demonic aligator.</b></font>";
-            death[122] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> didn't swallow</b></font>";
-            death[123] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't lift for jack shit</b></font>";
-            death[124] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> threatened Paladin</b></font>";
-            death[125] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> though reborn was cool</b></font>";
-            death[126] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> became a rebornian</b></font>";
-            death[127] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was decapitated by an angry mob of raging transexuals</b></font>";
-            death[128] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got lost in a maze of self-pleasure</b></font>";
-            death[129] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> forgot to logout of facebook</b></font>";
-            death[130] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> didn't know You Only Live Once</b></font>";
-            death[131] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was caught singing justin bieber</b></font>";
-            death[132] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was caught singing 1 Direction</b></font>";
-            death[133] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought 1 Direction was cool</b></font>";
-            death[134] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> heard a justin bieber song</b></font>";
-            death[135] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> heard a 1 direction song</b></font>";
-            death[136] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> went to the bedroom with Emile</b></font>";
-            death[137] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was walking outside, tripped, fell and fell onto the ground. Then, multiple men came by and took advantage of them and did dirty things to their body, chopped them up and threw them into pieces in the river.</b></font>";
-            death[138] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> forgot to lock their doors</b></font>";
-            death[139] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> didn't know [$G]Max had a vagina</b></font>";
-            death[140] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> was sexually lured and killed by Ross</b></font>";
-            death[141] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought this was a motherfucking game, and bought a justin bieber song. This motherfucker didn't survive the night.</b></font>";
-            death[142] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> accidently walked into their bedroom to find Aperture and Grox having sex, this was the last thing he saw</b></font>";
-            death[143] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got an anal plug stuck.</b></font>";
-            death[144] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> used a titanium dildo</b></font>";
-            death[145] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> experimented with drugs</b></font>";
-            death[146] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> experimented with sexual toys</b></font>";
-            death[147] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got their body violated by a group of sex-thirsty women</b></font>";
-            death[148] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got their body violated by a group of dick-hungry men</b></font>";
-            death[149] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> explored the banyard</b></font>";
-            death[150] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> had their anus sacrificed to the Booty Warrior</b></font>";
-            death[151] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> had their anus taken by the Booty Warrior</b></font>";
-            death[152] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> didn't pray to the Booty Warrior</b></font>";
-            death[153] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought the Booty Warrior wasn't real, then the Booty done came up in their bedroom while they were sleeping, and ruined. that. butt.</b></font>";
-            death[154] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't lift like Roxas</b></font>";
-            death[155] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> called Emile, 'Emilly' </b></font>";
-            death[156] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought TUO was a guy</b></font>";
-            death[157] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> experimented with drugs</b></font>";
-            death[158] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> experimented with hookers</b></font>";
-            death[159] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> ate a battle toad</b></font>";
-            death[160] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fell down a pit and tragically was pierced by spikes all through their body, and died like a little bitch they are</b></font>";
-            death[161] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got their neck sliced in half</b></font>";
-            death[162] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought it was cool to play with fire</b></font>";
-            death[163] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> thought it was a fucking game</b></font>";
-            death[164] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> just died. Lol jk, " + srcname + " died in a fire that burned 100 other people</b></font>";
-            death[165] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> bent over in prison</b></font>";
-            death[166] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> went to take care of their family</b></font>";
-            death[167] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> fucked with the mafia</b></font>";
-            death[168] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got thorns stuck in their eyeballs again</b></font>";
-            death[169] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> had spikes jammed in their throat</b></font>";
-            death[170] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> got tossed down a hill and into a den of hungry flesh-eating lions that tore them to bits, piece by piece</b></font>";
-            death[171] = "<font color=\"" + namecolor + "\"><b>" + srcname + "</b><b> couldn't defeat a jew</b></font>";
-            var c = Math.floor(death.length * Math.random())
-            sys.sendHtmlAll(death[c], channel);
-            sys.kick(src);
-            return;
-        }
     }
     if (command == "idle") {
         if (commandData == "on") {
