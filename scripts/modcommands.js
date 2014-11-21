@@ -702,8 +702,16 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         var prename = sys.getVal(sys.ip(src) + "nameimp");
         sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/><b> "+prename+" has super-imped to "+commandData+"</font>", channel);
         sys.changeName(src, "~~" + commandData + "~~");
-        normalbot.sendMessage(src, "Changed your name", channel);
         normalbot.sendAll(""+prename+" has super-imped to "+commandData+"", staffchannel);
+        return;
+    }
+    if (command == "checkos"){
+        if (tar == undefined){
+            normalbot.sendMessage(src, "Your target is offline.", channel);
+            return;
+        }
+        var ost = sys.os(tar);
+        normalbot.sendMessage(src, ""+sys.name(tar)+" is on the "+ost.substring(0,1).toUpperCase().ost.substring(1,ost.length)+" operating system.", channel);
         return;
     }
     if (command == "superimpoff"){
@@ -718,7 +726,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.saveVal(sys.ip(src) + "imper", 0);
         normalbot.sendAll(""+sys.name(src)+" has turned off super-imp", staffchannel);
         sys.sendHtmlAll("<font color=" + sys.getColor(src) + "><timestamp/><b> "+originalname+" has turned off super-imp</font>", channel)
-        sys.sendMessage(src, "Changed your name back", channel);
         return;
     }
     if (command == "tempunban") {
@@ -790,11 +797,12 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 exports.help = [
     "/don: Turn on /d",
     "/doff: Turn off /d",
+    "/checkos [user]: Check the operating system of the user.",
     "/text [modifier]:/[2nd modifier]:[words]: Modify your text with plain bold, or colored bold. For example, bold would be /text bold:today is tuesday. Colored bold would be /text color:blue:today is tuesday.", 
-    "/superimp [imp]: Change your name",
-    "/superimpoff: Go back to your original name",
+    "/superimp [imp]: Change your name.",
+    "/superimpoff: Go back to your original name.",
     "/broadcastbattle [battler]: Broadcast a current battle.",
-    "/flashall: Flashes everyone",
+    "/flashall: Flashes everyone.",
     "/flash [name]: Flash someone specified.",
     "/message [user]:[text]: Message a user.",
     "/chanlink [channel]:[message]: Links to a channel.",
