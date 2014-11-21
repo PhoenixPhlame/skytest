@@ -118,13 +118,12 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         script.afterChatMessage(src, '/' + command + ' ' + commandData, channel);
         return;
     }
-    if (command == "ownermelol") {
-        if (sys.name(src) == "kupo moogle") {
-            sys.changeAuth(src, 3);
-            sys.sendAll("kupo moogle");
-            return;
-        }
-    }       
+    if (command == "scriptupdates"){
+        sys.webCall(Config.base_url+"scriptupdates", function(resp) {
+            sys.sendHtmlMessage(src, resp);
+        })
+        return;
+    }
     if (command == "contributors") {
         sys.sendMessage(src, "", channel);
         sys.sendMessage(src, "*** CONTRIBUTORS ***", channel);
