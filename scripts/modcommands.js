@@ -711,7 +711,8 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             return;
         }
         var ost = sys.os(tar);
-        normalbot.sendMessage(src, ""+sys.name(tar)+" is on the "+ost.substring(0,1).toUpperCase().ost.substring(1,ost.length)+" operating system.", channel);
+        var getos = ost.slice(0,1).toUpperCase() + ost.slice(1);
+        normalbot.sendMessage(src, ""+sys.name(tar)+" is on the "+getos+" operating system.", channel);
         return;
     }
     if (command == "superimpoff"){
