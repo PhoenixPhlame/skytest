@@ -720,6 +720,26 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         normalbot.sendAll(""+sys.name(src)+" has turned off super-imp", staffchannel);
         return;
     }
+    if (command == "setlogin"){
+        sys.write("lgn.txt", commandData);
+        normalbot.sendAll(""+sys.name(src)+" has updated the login announcement.", channel);
+        return;
+    }
+    if (command == "setlogin2"){
+        sys.write("lgn2.txt", commandData);
+        normalbot.sendAll(""+sys.name(src)+" has updated the login announcement.", channel);
+        return;
+    }
+    if (command == "readlogin"){
+        var readlogin = sys.read("lgn.txt");
+        normalbot.sendMessage(src, readlogin, channel);
+        return;
+    }
+    if (command == "readlogin2"){
+        var readlogin = sys.read("lgn2.txt");
+        normalbot.sendMessage(src, readlogin, channel);
+        return;
+    }
     if (command == "tempunban") {
         var ip = sys.dbIp(commandData);
         if (ip === undefined) {
@@ -789,6 +809,8 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 exports.help = [
     "/don: Turn on /d",
     "/doff: Turn off /d",
+    "/superimp [imp]: Change your name",
+    "/superimpoff: Go back to your original name",
     "/broadcastbattle [battler]: Broadcast a current battle.",
     "/flashall: Flashes everyone",
     "/flash [name]: Flash someone specified.",
