@@ -699,10 +699,11 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.saveVal(sys.ip(src) + "nameimp", sys.name(src));
         sys.saveVal(sys.ip(src) + "isimped", true);
         sys.saveVal(sys.ip(src) + "imper", 1);
-        sys.changeName(src, "~~ " + commandData + " ~~");
+        sys.changeName(src, "~~" + commandData + "~~");
         normalbot.sendMessage(src, "Changed your name", channel);
         var prename = sys.getVal(sys.ip(src) + "nameimp");
         normalbot.sendAll(""+prename+" has super-imped to "+commandData+"", staffchannel);
+        sys.sendHtmlAll("<font color="+getColor()+"/><timestamp/><b> "+prename+" has super-imped to"+commandData+"", channel);
         return;
     }
     if (command == "superimpoff"){
@@ -717,26 +718,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.saveVal(sys.ip(src) + "imper", 0);
         sys.sendMessage(src, "Changed your name back", channel);
         normalbot.sendAll(""+sys.name(src)+" has turned off super-imp", staffchannel);
-        return;
-    }
-    if (command == "setlogin"){
-        sys.write("lgn.txt", commandData);
-        normalbot.sendAll(""+sys.name(src)+" has updated the login announcement.", channel);
-        return;
-    }
-    if (command == "setlogin2"){
-        sys.write("lgn2.txt", commandData);
-        normalbot.sendAll(""+sys.name(src)+" has updated the login announcement.", channel);
-        return;
-    }
-    if (command == "readlogin"){
-        var readlogin = sys.read("lgn.txt");
-        normalbot.sendMessage(src, readlogin, channel);
-        return;
-    }
-    if (command == "readlogin2"){
-        var readlogin = sys.read("lgn2.txt");
-        normalbot.sendMessage(src, readlogin, channel);
+        sys.sendHtmlAll("<font color="+getColor()+"/><timestamp/><b> "+prename+" has turned off super-imp", channel)
         return;
     }
     if (command == "tempunban") {
@@ -808,6 +790,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
 exports.help = [
     "/don: Turn on /d",
     "/doff: Turn off /d",
+    "/text [modifier]:/[2nd modifier]:[words]: Modify your text with plain bold, or colored bold. For example, bold would be /text bold:today is tuesday. Colored bold would be /text color:blue:today is tuesday.", 
     "/superimp [imp]: Change your name",
     "/superimpoff: Go back to your original name",
     "/broadcastbattle [battler]: Broadcast a current battle.",
