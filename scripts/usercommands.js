@@ -119,6 +119,168 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         script.afterChatMessage(src, '/' + command + ' ' + commandData, channel);
         return;
     }
+    if (command == "contributors") {
+        sys.sendMessage(src, "", channel);
+        sys.sendMessage(src, "*** CONTRIBUTORS ***", channel);
+        sys.sendMessage(src, "", channel);
+        for (var x in script.contributors.hash) {
+            if (script.contributors.hash.hasOwnProperty(x)) {
+                sys.sendMessage(src, x + "'s contributions: " + script.contributors.get(x), channel);
+            }
+        }
+        sys.sendMessage(src, "", channel);
+        return;
+    }
+    if (command == "league") {
+        if (!Config.League) return;
+        sys.sendMessage(src, "", channel);
+        sys.sendMessage(src, "*** Pokemon Online League ***", channel);
+        sys.sendMessage(src, "", channel);
+        ar = Config.League;
+        for (x = 0; x < ar.length; ++x) {
+            if (ar[x].length > 0) {
+                sys.sendHtmlMessage(src, "<span style='font-weight: bold'>" + utilities.html_escape(ar[x][0].toCorrectCase()) + "</span> - " + ar[x][1].format(utilities.html_escape(ar[x][0])) + " " + (sys.id(ar[x][0]) !== undefined ? "<span style='color: green'>(online)</span>" : "<span style='color: red'>(offline)</span>"), channel);
+            }
+        }
+        sys.sendMessage(src, "", channel);
+        return;
+    }
+    if (command == "rules") {
+        if (commandData === "mafia") {
+            require('mafia.js').showRules(src, channel);
+            return;
+        }
+        var norules = (rules.length-1)/2; //formula for getting the right amount of rules
+        if(commandData !== undefined && !isNaN(commandData) && commandData >0 && commandData < norules){
+            var num = parseInt(commandData, 10);
+            num = (2*num)+1; //gets the right rule from the list since it isn't simply y=x it's y=2x+1
+            sys.sendMessage(src, rules[num], channel);
+            sys.sendMessage(src, rules[num+1], channel);
+            return;
+        }
+        for (var rule = 0; rule < rules.length; rule++) {
+            sys.sendMessage(src, rules[rule], channel);
+        }
+        return;
+    }
+    if (command == "players") {
+        if (commandData) {
+            commandData = commandData.toLowerCase();
+        }
+        if (["windows", "linux", "android", "mac", "webclient"].indexOf(commandData) !== -1) {
+            var android = 0;
+            sys.playerIds().forEach(function (id) {
+                if (sys.os(id) === commandData) {
+                    android += 1;
+                }
+            });
+            countbot.sendMessage(src, "There are  " + android + " " + commandData + " players online", channel);
+            return;
+        }
+        if (commandData == "top" || commandData == "max") {
+            countbot.sendMessage(src, "Max number of players online was " + sys.getVal("MaxPlayersOnline") + ".", channel);
+            return;
+        }
+        countbot.sendMessage(src, "There are " + sys.numPlayers() + " players online.", channel);
+        return;
+    }
+    if (command == "ranking") {
+        var announceTier = function(tier) {
+            var rank = sys.ranking(sys.name(src), tier);
+            if (rank === undefined) {
+                rankingbot.sendMessage(src, "You are not ranked in " + tier + " yet!", channel);
+            } else {
+                rankingbot.sendMessage(src, "Your rank in " + tier + " is " + rank + "/" + sys.totalPlayersByTier(tier) + " [" + sys.ladderRating(src, tier) + " points / " + sys.ratedBattles(sys.name(src), tier) +" battles]!", channel);
+            }
+        };
+        if (commandData !== undefined) {
+            if (sys.totalPlayersByTier(commandData) === 0)
+                rankingbot.sendMessage(src, commandData + " is not even a tier.", channel);
+            else
+                announceTier(commandData);
+        } else {
+            [0,1,2,3,4,5].slice(0, sys.teamCount(src))
+                .map(function(i) { return sys.tier(src, i); })
+                .filter(function(tier) { return tier !== undefined; })
+                .sort()
+                .filter(function(tier, index, array) { return tier !== array[index-1]; })
+                .forEach(announceTier);
+        }
+        return;
+    }
+    if (command == "battlecount") {
+        if (!commandData || commandData.indexOf(":") == -1) {
+            rankingbot.sendMessage(src, "Usage: /battlecount name:tier", channel);
+            return;
+        }
+        var stuff = commandData.split(":");
+        var name = stuff[0];
+        var tier = utilities.find_tier(stuff[1]);
+        var rank = sys.ranking(name, tier);
+        if (!tier) {
+            rankbot.sendMessage(stuff[1] + " is not a tier", channel);
+            return;
+        }
+        if (rank === undefined) {
+            rankingbot.sendMessage(src, "They are not ranked in " + tier + " yet!", channel);
+        } else {
+            rankingbot.sendMessage(src, name + "'s rank in " + tier + " is " + rank + "/" + sys.totalPlayersByTier(tier) + " [" + sys.ratedBattles(name, tier) +" battles]!", channel);
+        }
+        return;
+    }
+    if (command == "auth") {
+        var DoNotShowIfOffline = ["loseyourself", "oneballjay"];
+        var filterByAuth = function(level) { return function(name) { return sys.dbAuth(name) == level; }; };
+        var printOnlineOffline = function(name) {
+            if (sys.id(name) === undefined) {
+                if (DoNotShowIfOffline.indexOf(name) == -1) sys.sendMessage(src, name, channel);
+            } else {
+                sys.sendHtmlMessage(src, "<timestamp/><font color = " + sys.getColor(sys.id(name)) + "><b>" + name.toCorrectCase() + "</b></font>", channel);
+            }
+        };
+        var authlist = sys.dbAuths().sort();
+        sys.sendMessage(src, "", channel);
+        switch (commandData) {
+            case "owners":
+                sys.sendMessage(src, "*** Owners ***", channel);
+                authlist.filter(filterByAuth(3)).forEach(printOnlineOffline);
+                break;
+            case "admins":
+            case "administrators":
+                sys.sendMessage(src, "*** Administrators ***", channel);
+                authlist.filter(filterByAuth(2)).forEach(printOnlineOffline);
+                break;
+            case "mods":
+            case "moderators":
+                sys.sendMessage(src, "*** Moderators ***", channel);
+                authlist.filter(filterByAuth(1)).forEach(printOnlineOffline);
+                break;
+            default:
+                sys.sendMessage(src, "*** Owners ***", channel);
+                authlist.filter(filterByAuth(3)).forEach(printOnlineOffline);
+                sys.sendMessage(src, '', channel);
+                sys.sendMessage(src, "*** Administrators ***", channel);
+                authlist.filter(filterByAuth(2)).forEach(printOnlineOffline);
+                sys.sendMessage(src, '', channel);
+                sys.sendMessage(src, "*** Moderators ***", channel);
+                authlist.filter(filterByAuth(1)).forEach(printOnlineOffline);
+        }
+        sys.sendMessage(src, '', channel);
+        return;
+    }
+    if (command == "sametier") {
+        if (commandData == "on") {
+            battlebot.sendMessage(src, "You enforce same tier in your battles.", channel);
+            SESSION.users(src).sametier = true;
+        } else if (commandData == "off") {
+            battlebot.sendMessage(src, "You allow different tiers in your battles.", channel);
+            SESSION.users(src).sametier = false;
+        } else {
+            battlebot.sendMessage(src, "Currently: " + (SESSION.users(src).sametier ? "enforcing same tier" : "allow different tiers") + ". Use /sametier on/off to change it!", channel);
+        }
+        script.saveKey("forceSameTier", src, SESSION.users(src).sametier * 1);
+        return;
+    }
     if (command == "scriptupdates"){
         sys.webCall(Config.base_url+"scriptupdates", function(resp) {
             sys.sendHtmlMessage(src, resp);
@@ -309,168 +471,6 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             sys.kick(src);
             return;
         }
-    }
-    if (command == "contributors") {
-        sys.sendMessage(src, "", channel);
-        sys.sendMessage(src, "*** CONTRIBUTORS ***", channel);
-        sys.sendMessage(src, "", channel);
-        for (var x in script.contributors.hash) {
-            if (script.contributors.hash.hasOwnProperty(x)) {
-                sys.sendMessage(src, x + "'s contributions: " + script.contributors.get(x), channel);
-            }
-        }
-        sys.sendMessage(src, "", channel);
-        return;
-    }
-    if (command == "league") {
-        if (!Config.League) return;
-        sys.sendMessage(src, "", channel);
-        sys.sendMessage(src, "*** Pokemon Online League ***", channel);
-        sys.sendMessage(src, "", channel);
-        ar = Config.League;
-        for (x = 0; x < ar.length; ++x) {
-            if (ar[x].length > 0) {
-                sys.sendHtmlMessage(src, "<span style='font-weight: bold'>" + utilities.html_escape(ar[x][0].toCorrectCase()) + "</span> - " + ar[x][1].format(utilities.html_escape(ar[x][0])) + " " + (sys.id(ar[x][0]) !== undefined ? "<span style='color: green'>(online)</span>" : "<span style='color: red'>(offline)</span>"), channel);
-            }
-        }
-        sys.sendMessage(src, "", channel);
-        return;
-    }
-    if (command == "rules") {
-        if (commandData === "mafia") {
-            require('mafia.js').showRules(src, channel);
-            return;
-        }
-        var norules = (rules.length-1)/2; //formula for getting the right amount of rules
-        if(commandData !== undefined && !isNaN(commandData) && commandData >0 && commandData < norules){
-            var num = parseInt(commandData, 10);
-            num = (2*num)+1; //gets the right rule from the list since it isn't simply y=x it's y=2x+1
-            sys.sendMessage(src, rules[num], channel);
-            sys.sendMessage(src, rules[num+1], channel);
-            return;
-        }
-        for (var rule = 0; rule < rules.length; rule++) {
-            sys.sendMessage(src, rules[rule], channel);
-        }
-        return;
-    }
-    if (command == "players") {
-        if (commandData) {
-            commandData = commandData.toLowerCase();
-        }
-        if (["windows", "linux", "android", "mac", "webclient"].indexOf(commandData) !== -1) {
-            var android = 0;
-            sys.playerIds().forEach(function (id) {
-                if (sys.os(id) === commandData) {
-                    android += 1;
-                }
-            });
-            countbot.sendMessage(src, "There are  " + android + " " + commandData + " players online", channel);
-            return;
-        }
-        if (commandData == "top" || commandData == "max") {
-            countbot.sendMessage(src, "Max number of players online was " + sys.getVal("MaxPlayersOnline") + ".", channel);
-            return;
-        }
-        countbot.sendMessage(src, "There are " + sys.numPlayers() + " players online.", channel);
-        return;
-    }
-    if (command == "ranking") {
-        var announceTier = function(tier) {
-            var rank = sys.ranking(sys.name(src), tier);
-            if (rank === undefined) {
-                rankingbot.sendMessage(src, "You are not ranked in " + tier + " yet!", channel);
-            } else {
-                rankingbot.sendMessage(src, "Your rank in " + tier + " is " + rank + "/" + sys.totalPlayersByTier(tier) + " [" + sys.ladderRating(src, tier) + " points / " + sys.ratedBattles(sys.name(src), tier) +" battles]!", channel);
-            }
-        };
-        if (commandData !== undefined) {
-            if (sys.totalPlayersByTier(commandData) === 0)
-                rankingbot.sendMessage(src, commandData + " is not even a tier.", channel);
-            else
-                announceTier(commandData);
-        } else {
-            [0,1,2,3,4,5].slice(0, sys.teamCount(src))
-                .map(function(i) { return sys.tier(src, i); })
-                .filter(function(tier) { return tier !== undefined; })
-                .sort()
-                .filter(function(tier, index, array) { return tier !== array[index-1]; })
-                .forEach(announceTier);
-        }
-        return;
-    }
-    if (command == "battlecount") {
-        if (!commandData || commandData.indexOf(":") == -1) {
-            rankingbot.sendMessage(src, "Usage: /battlecount name:tier", channel);
-            return;
-        }
-        var stuff = commandData.split(":");
-        var name = stuff[0];
-        var tier = utilities.find_tier(stuff[1]);
-        var rank = sys.ranking(name, tier);
-        if (!tier) {
-            rankbot.sendMessage(stuff[1] + " is not a tier", channel);
-            return;
-        }
-        if (rank === undefined) {
-            rankingbot.sendMessage(src, "They are not ranked in " + tier + " yet!", channel);
-        } else {
-            rankingbot.sendMessage(src, name + "'s rank in " + tier + " is " + rank + "/" + sys.totalPlayersByTier(tier) + " [" + sys.ratedBattles(name, tier) +" battles]!", channel);
-        }
-        return;
-    }
-    if (command == "auth") {
-        var DoNotShowIfOffline = ["loseyourself", "oneballjay"];
-        var filterByAuth = function(level) { return function(name) { return sys.dbAuth(name) == level; }; };
-        var printOnlineOffline = function(name) {
-            if (sys.id(name) === undefined) {
-                if (DoNotShowIfOffline.indexOf(name) == -1) sys.sendMessage(src, name, channel);
-            } else {
-                sys.sendHtmlMessage(src, "<timestamp/><font color = " + sys.getColor(sys.id(name)) + "><b>" + name.toCorrectCase() + "</b></font>", channel);
-            }
-        };
-        var authlist = sys.dbAuths().sort();
-        sys.sendMessage(src, "", channel);
-        switch (commandData) {
-            case "owners":
-                sys.sendMessage(src, "*** Owners ***", channel);
-                authlist.filter(filterByAuth(3)).forEach(printOnlineOffline);
-                break;
-            case "admins":
-            case "administrators":
-                sys.sendMessage(src, "*** Administrators ***", channel);
-                authlist.filter(filterByAuth(2)).forEach(printOnlineOffline);
-                break;
-            case "mods":
-            case "moderators":
-                sys.sendMessage(src, "*** Moderators ***", channel);
-                authlist.filter(filterByAuth(1)).forEach(printOnlineOffline);
-                break;
-            default:
-                sys.sendMessage(src, "*** Owners ***", channel);
-                authlist.filter(filterByAuth(3)).forEach(printOnlineOffline);
-                sys.sendMessage(src, '', channel);
-                sys.sendMessage(src, "*** Administrators ***", channel);
-                authlist.filter(filterByAuth(2)).forEach(printOnlineOffline);
-                sys.sendMessage(src, '', channel);
-                sys.sendMessage(src, "*** Moderators ***", channel);
-                authlist.filter(filterByAuth(1)).forEach(printOnlineOffline);
-        }
-        sys.sendMessage(src, '', channel);
-        return;
-    }
-    if (command == "sametier") {
-        if (commandData == "on") {
-            battlebot.sendMessage(src, "You enforce same tier in your battles.", channel);
-            SESSION.users(src).sametier = true;
-        } else if (commandData == "off") {
-            battlebot.sendMessage(src, "You allow different tiers in your battles.", channel);
-            SESSION.users(src).sametier = false;
-        } else {
-            battlebot.sendMessage(src, "Currently: " + (SESSION.users(src).sametier ? "enforcing same tier" : "allow different tiers") + ". Use /sametier on/off to change it!", channel);
-        }
-        script.saveKey("forceSameTier", src, SESSION.users(src).sametier * 1);
-        return;
     }
     if (command == "idle") {
         if (commandData == "on") {
