@@ -1413,6 +1413,7 @@ beforePlayerRegister : function(src) {
 },
 
 beforeLogOut : function(src) {
+    sys.saveVal(sys.ip(src) + "imper", 0)
     if (SESSION.users(src).megauser)
         sys.appendToFile("staffstats.txt", sys.name(src) + "~" + src + "~" + sys.time() + "~" + "Disconnected as MU" + "\n");
     if (sys.auth(src) > 0 && sys.auth(src) <= 3)
