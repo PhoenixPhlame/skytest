@@ -703,7 +703,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         normalbot.sendMessage(src, "Changed your name", channel);
         var prename = sys.getVal(sys.ip(src) + "nameimp");
         normalbot.sendAll(""+prename+" has super-imped to "+commandData+"", staffchannel);
-        sys.stopEvent();
         return;
     }
     if (command == "superimpoff"){
