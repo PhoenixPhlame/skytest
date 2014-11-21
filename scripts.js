@@ -19,8 +19,8 @@ var Config = {
     querybot: "QueryBot",
     hangbot: "Unown",
     bfbot: "Goomy",
-    emates: ["nigrin", "negrito"],
     // suspectvoting.js available, but not in use
+    emates: ["nigrin", "negrito"],
     Plugins: ["mafia.js", "amoebagame.js", "tournaments.js", "tourstats.js", "trivia.js", "tours.js", "newtourstats.js", "auto_smute.js", "battlefactory.js", "hangman.js", "blackjack.js", "mafiastats.js", "mafiachecker.js"],
     Mafia: {
         bot: "Murkrow",
@@ -1590,7 +1590,7 @@ beforeNewPM: function(src){
 },
 
 beforeChatMessage: function(src, message, chan) {
-    if (message.toLowerCase() == Config.emates){
+    if (message instanceof Config.emates){
         sys.webCall(Config.base_url+"emotes/"+message.toLowerCase(), function (resp) {
             sys.sendHtmlAll(resp);
             return;
