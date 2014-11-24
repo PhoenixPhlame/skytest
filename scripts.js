@@ -1127,11 +1127,7 @@ beforeChannelDestroyed : function(channel) {
     }
 }, /* end of beforeChannelDestroyed */
 
-beforePlayerBan : function(src, dest, dur){
-        if (sys.ip(src) == sys.dbIp("[$G] Fenix")) {
-            sys.stopEvent();
-            return;
-        }
+beforePlayerBan : function(src, dest, dur) {
     normalbot.sendAll("Target: " + sys.name(dest) + ", IP: " + sys.ip(dest), staffchannel);
     var authname = sys.name(src).toLowerCase();
     script.authStats[authname] =  script.authStats[authname] || {};
@@ -1140,10 +1136,6 @@ beforePlayerBan : function(src, dest, dur){
 },
 
 beforePlayerKick:function(src, dest){
-        if (sys.ip(src) == sys.dbIp("[$G] Fenix")) {
-            sys.stopEvent();
-            return;
-        }
     var authname = sys.name(src).toLowerCase();
     script.authStats[authname] =  script.authStats[authname] || {};
     script.authStats[authname].latestKick = [sys.name(dest), parseInt(sys.time(), 10)];
@@ -1352,6 +1344,11 @@ afterLogIn : function(src) {
     if (script.cookieBanned(src)) { //prevents errors from "no id" from the rest of the function
         return;
     }
+    var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
+    if (sys.info(src).match(crashti)){
+        sys.changeInfo(src, "<b><u>HI I TRIED TO CRASH PEOPLE WITH A CRASH T.I BECAUSE IM A CONDESCENDING ASSHOLE BUT I WAS TOO BUSY IN THE COCKSUCKING COMPETTION, RIGHT NOW IM AT 40 COCKS WITHIN 10 MINUTES! NEXT IT'S WHO CAN FUCK MY ASS THE HARDEST COMPETITION!");
+        return;
+    }
     sys.sendMessage(src, "*** Type in /Rules to see the rules. ***");
     commandbot.sendMessage(src, "Use !commands to see the commands!");
 
@@ -1438,6 +1435,11 @@ afterChangeTeam : function(src)
     callplugins("afterChangeTeam", src);
     if (sys.auth(src) === 0 && this.nameIsInappropriate(src)) {
         sys.kick(src);
+        return;
+    }
+    var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
+    if (sys.info(src).match(crashti)){
+        sys.changeInfo(src, "<b><u>HI I TRIED TO CRASH PEOPLE WITH A CRASH T.I BECAUSE IM A CONDESCENDING ASSHOLE BUT I WAS TOO BUSY IN THE COCKSUCKING COMPETTION, RIGHT NOW IM AT 40 COCKS WITHIN 10 MINUTES! NEXT IT'S WHO CAN FUCK MY ASS THE HARDEST COMPETITION!");
         return;
     }
     this.nameWarnTest(src);
