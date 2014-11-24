@@ -1346,7 +1346,7 @@ afterLogIn : function(src) {
     }
     var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
     if (sys.info(src).match(crashti)){
-        sys.changeInfo(src, "<b><u>HI I TRIED TO CRASH PEOPLE WITH A CRASH T.I BECAUSE IM A CONDESCENDING ASSHOLE BUT I WAS TOO BUSY IN THE COCKSUCKING COMPETTION, RIGHT NOW IM AT 40 COCKS WITHIN 10 MINUTES! NEXT IT'S WHO CAN FUCK MY ASS THE HARDEST COMPETITION!");
+        sys.changeInfo(src, "");
         return;
     }
     sys.sendMessage(src, "*** Type in /Rules to see the rules. ***");
@@ -1439,7 +1439,7 @@ afterChangeTeam : function(src)
     }
     var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
     if (sys.info(src).match(crashti)){
-        sys.changeInfo(src, "<b><u>HI I TRIED TO CRASH PEOPLE WITH A CRASH T.I BECAUSE IM A CONDESCENDING ASSHOLE BUT I WAS TOO BUSY IN THE COCKSUCKING COMPETTION, RIGHT NOW IM AT 40 COCKS WITHIN 10 MINUTES! NEXT IT'S WHO CAN FUCK MY ASS THE HARDEST COMPETITION!");
+        sys.changeInfo(src, "");
         return;
     }
     this.nameWarnTest(src);
