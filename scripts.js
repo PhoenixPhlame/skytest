@@ -1349,6 +1349,10 @@ afterLogIn : function(src) {
         sys.changeInfo(src, "");
         return;
     }
+    if (sys.auth(src) >= 1){
+        sys.putInChannel(src, watchchannel);
+        return;
+    }
     sys.sendMessage(src, "*** Type in /Rules to see the rules. ***");
     commandbot.sendMessage(src, "Use !commands to see the commands!");
 
