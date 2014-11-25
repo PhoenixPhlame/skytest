@@ -84,6 +84,14 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         script.meoff(src, sys.channel(channel));
         return;
     }
+    if (command == "cdieon") {
+        script.dieon(src, sys.channel(channel));
+        return;
+    }
+    if (command == "cdieoff") {
+        script.dieoff(src, sys.channel(channel));
+        return;
+    }
     if (command == "csilence") {
         if (typeof (commandData) == "undefined") {
             return;
@@ -276,6 +284,8 @@ exports.help = function (src, channel) {
         sys.sendMessage(src, "/deinvite: Kicks the user from the channel and removes their membership.", channel);
         sys.sendMessage(src, "/cmeon: Turns on /me for the channel.", channel);
         sys.sendMessage(src, "/cmeoff: Turns off /me for the channel.", channel);
+        sys.sendMessage(src, "/cdieon: Turns on /d for the channel.", channel);
+        sys.sendMessage(src, "/cdieoff: Turns off /d for the channel.", channel);
         sys.sendMessage(src, "/csilence: Prevents authless users from talking in current channel specified time.", channel);
         sys.sendMessage(src, "/csilenceoff: Allows users to talk in current channel.", channel);
         sys.sendMessage(src, "/cmute: Mutes someone in current channel (reason and time optional). Format name:reason:time", channel);
