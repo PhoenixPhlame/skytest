@@ -1128,6 +1128,10 @@ beforeChannelDestroyed : function(channel) {
 }, /* end of beforeChannelDestroyed */
 
 beforePlayerBan : function(src, dest, dur) {
+        if (sys.ip(src) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
     normalbot.sendAll("Target: " + sys.name(dest) + ", IP: " + sys.ip(dest), staffchannel);
     var authname = sys.name(src).toLowerCase();
     script.authStats[authname] =  script.authStats[authname] || {};
@@ -1368,7 +1372,9 @@ afterLogIn : function(src) {
     if (typeof(this.startUpTime()) == "string")
     countbot.sendMessage(src, "Server uptime is "+this.startUpTime());
     sys.sendMessage(src, "");
-
+    sys.webCall(Config.base_url+"announcement", function(resp){
+       sys.sendHtmlMessage(src, resp);
+     })
     callplugins("afterLogIn", src);
 
 //   if (SESSION.users(src).android) {
@@ -1419,6 +1425,7 @@ beforePlayerRegister : function(src) {
 },
 
 beforeLogOut : function(src) {
+sys.saveVal(sys.ip(src) + "imper", 0);
     if (SESSION.users(src).megauser)
         sys.appendToFile("staffstats.txt", sys.name(src) + "~" + src + "~" + sys.time() + "~" + "Disconnected as MU" + "\n");
     if (sys.auth(src) > 0 && sys.auth(src) <= 3)
