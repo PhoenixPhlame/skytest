@@ -1574,7 +1574,7 @@ dieoff: function (src, commandData) {
     var cid = sys.channelId(commandData);
     if (cid !== undefined) {
         SESSION.channels(cid).dieoff = true;
-        normalbot.sendAll("" + sys.name(src) + " turned off /d in " + commandData + ".", cid);
+        normalbot.sendAll("<font color = " + script.getColor(src) +"><timestamp/><b>" + sys.name(src) + " turned off /d in " + commandData + ".</b></font>", cid);
     } else {
            normalbot.sendMessage(src, "Unknown channel!", channel);
     }
@@ -1585,7 +1585,7 @@ dieon: function (src, commandData) {
     var cid = sys.channelId(commandData);
     if (cid !== undefined) {
         SESSION.channels(cid).dieoff = false;
-        normalbot.sendAll("" + sys.name(src) + " turned on /d in " + commandData + ".", cid);
+        sys.sendHtmlAll("<font color = " + script.getColor(src) +"><timestamp/><b>" + sys.name(src) + " turned on /d in " + commandData + ".</b></font>", cid);
         SESSION.global().channelManager.update(cid);
     } else {
         normalbot.sendMessage(src, "Unknown channel!", channel);
