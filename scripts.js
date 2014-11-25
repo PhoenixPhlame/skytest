@@ -1563,6 +1563,28 @@ meon: function(src, commandData) {
     }
 },
 
+dieoff: function (src, commandData) {
+    var cid = sys.channelId(commandData);
+    if (cid !== undefined) {
+        SESSION.channels(cid).dieoff = true;
+        normalbot.sendAll("" + sys.name(src) + " turned off /d in " + commandData + ".", cid);
+    } else {
+           normalbot.sendMessage(src, "Unknown channel!", channel);
+    }
+    return;
+},
+
+dieon: function (src, commandData) {
+    var cid = sys.channelId(commandData);
+    if (cid !== undefined) {
+        SESSION.channels(cid).dieoff = false;
+        normalbot.sendAll("" + sys.name(src) + " turned on /d in " + commandData + ".", cid);
+        SESSION.global().channelManager.update(cid);
+    } else {
+        normalbot.sendMessage(src, "Unknown channel!", channel);
+    }
+},
+
 beforeNewMessage : function(msg) {
     //Disabling for the moment
    if (0 && msg != "Script Check: OK") {
