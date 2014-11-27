@@ -243,6 +243,19 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             return;
         }
     }
+    /*
+    if (command == "d" || command == "die") {
+        if (SESSION.channels(channel).dieoff === true) {
+            normalbot.sendMessage(src, "/d was turned off.", channel);
+            return;
+        }
+        var death = sys.getFileContent(Config.dataDir + "deaths.txt").split('\n');
+        var y = Math.floor(death.length * Math.random());
+        sys.sendHtmlAll("<font color = " + script.getColor(src) +"><b>" + sys.name(src) + " " + death[y] + "</b></font>", channel);
+        sys.kick(src);
+        return;
+    }
+    */
     if ((command == "me" || command == "rainbow") && !SESSION.channels(channel).muteall) {
         if (SESSION.channels(channel).meoff === true) {
             normalbot.sendMessage(src, "/me was turned off.", channel);
