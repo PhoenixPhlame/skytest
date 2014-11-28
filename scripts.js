@@ -1372,7 +1372,7 @@ afterLogIn : function(src) {
     if (typeof(this.startUpTime()) == "string")
     countbot.sendMessage(src, "Server uptime is "+this.startUpTime());
     sys.sendMessage(src, "");
-    sys.webCall(Config.base_url+"announcement", function(resp){
+    sys.webCall(Config.base_url + Config.dataDir + "announcement.txt", function(resp){
        sys.sendHtmlMessage(src, resp);
      })
     callplugins("afterLogIn", src);
