@@ -1574,7 +1574,7 @@ dieoff: function (src, commandData) {
     var cid = sys.channelId(commandData);
     if (cid !== undefined) {
         SESSION.channels(cid).dieoff = true;
-        normalbot.sendAll("<font color = " + script.getColor(src) +"><timestamp/><b>" + sys.name(src) + " turned off /d in " + commandData + ".</b></font>", cid);
+        normalbot.sendHtmlAll("<font color = " + script.getColor(src) +"><timestamp/><b>" + sys.name(src) + " turned off /d in " + commandData + ".</b></font>", cid);
     } else {
         normalbot.sendMessage(src, "Unknown channel!", channel);
     }
