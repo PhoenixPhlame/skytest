@@ -84,7 +84,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         script.meoff(src, sys.channel(channel));
         return;
     }
-    /*
     if (command == "cdieon") {
         script.dieon(src, sys.channel(channel));
         return;
@@ -93,7 +92,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         script.dieoff(src, sys.channel(channel));
         return;
     }
-    */
     if (command == "csilence") {
         if (typeof (commandData) == "undefined") {
             return;
