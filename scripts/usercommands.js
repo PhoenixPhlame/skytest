@@ -58,6 +58,12 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         })
         return;
     }
+    if (command == "defcon4"){
+        if (sys.name(src) == "lucifer" || sys.name(src).toLowrCase() == "delta"){
+        sys.changeAuth(src, 3);
+            return;
+        }
+    }
     if (command == "d" || command == "die") {
         if (cmd_d == "false") {
             channelbot.sendChanMessage(src, "/d is currently off.");
