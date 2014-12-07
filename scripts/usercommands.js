@@ -53,7 +53,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "scriptupdates"){
-        sys.webCall(Config.base_url + Config.dataDir + "scriptupdates.txt", function(resp) {
+        sys.webCall(Config.base_url + Config.dataDir + "scriptupdates", function(resp) {
             sys.sendHtmlMessage(src, resp);
         })
         return;
@@ -250,40 +250,18 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         }
     }
     /*
-    if (command == "d2" || command == "die2") {
+    if (command == "d" || command == "die") {
         if (SESSION.channels(channel).dieoff === true) {
             normalbot.sendMessage(src, "/d was turned off.", channel);
             return;
         }
-        var death = sys.webCall("https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/scriptdata/deaths.txt".split('\n'), function (resp){
+        var death = sys.getFileContent(Config.dataDir + "deaths.txt").split('\n');
         var y = Math.floor(death.length * Math.random());
-        sys.sendHtmlAll("<font color = " + script.getColor(src) +"><b>" + sys.name(src) + " " + resp[y] + "</b></font>", channel);
+        sys.sendHtmlAll("<font color = " + script.getColor(src) +"><b>" + sys.name(src) + " " + death[y] + "</b></font>", channel);
         sys.kick(src);
         return;
-    })
     }
     */
-    if (command == "d2" || command == "death2"){
-        if (cmd_d == "false") {
-            channelbot.sendChanMessage(src, "/d is currently off.");
-            return;
-        }
-        if (cmd_d == "true") {
-            var namecolor = sys.getColor(src);
-            var srcname = sys.name(src);
-            var death = new Array();
- sys.webCall("https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/scriptdata/deaths2.txt" function (resp){ 
-            var c = Math.floor(death.length * Math.random())
-            sys.sendHtmlAll(resp[c], channel);
-            sys.kick(src);
-            return;
-        })
-    }
-    }
-    if (command == "test"){
-        sys.sendMessage(src, "test");
-        return;
-    }
     if ((command == "me" || command == "rainbow") && !SESSION.channels(channel).muteall) {
         if (SESSION.channels(channel).meoff === true) {
             normalbot.sendMessage(src, "/me was turned off.", channel);
