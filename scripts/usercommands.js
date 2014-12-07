@@ -53,7 +53,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "scriptupdates"){
-        sys.webCall(Config.base_url + Config.dataDir + "scriptupdates", function(resp) {
+        sys.webCall(Config.base_url + Config.dataDir + "scriptupdates.txt", function(resp) {
             sys.sendHtmlMessage(src, resp);
         })
         return;
