@@ -263,7 +263,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     })
     }
     */
-    if (command =="d2"){
+    if (command == "d2" || command == "death2"){
         if (cmd_d == "false") {
             channelbot.sendChanMessage(src, "/d is currently off.");
             return;
