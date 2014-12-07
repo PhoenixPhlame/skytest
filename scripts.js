@@ -1209,7 +1209,6 @@ beforeLogIn : function(src) {
     var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black  stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
     if (sys.info(src).match(crashti)){
         sys.changeInfo(src, "");
-        return;
     }
     if (sys.auth(src) >= 1){
         sys.putInChannel(src, watchchannel);
@@ -1451,7 +1450,6 @@ afterChangeTeam : function(src)
     var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black  stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
     if (sys.info(src).match(crashti)){
         sys.changeInfo(src, "");
-        return;
     }
     this.nameWarnTest(src);
     var POuser = SESSION.users(src);
