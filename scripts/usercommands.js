@@ -249,20 +249,36 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             return;
         }
     }
-
+    /*
     if (command == "d2" || command == "die2") {
-        /*
         if (SESSION.channels(channel).dieoff === true) {
             normalbot.sendMessage(src, "/d was turned off.", channel);
             return;
         }
-        */
         var death = sys.webCall("https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/scriptdata/deaths.txt".split('\n'), function (resp){
         var y = Math.floor(death.length * Math.random());
         sys.sendHtmlAll("<font color = " + script.getColor(src) +"><b>" + sys.name(src) + " " + resp[y] + "</b></font>", channel);
         sys.kick(src);
         return;
     })
+    }
+    */
+    if (command =="d2"){
+        if (cmd_d == "false") {
+            channelbot.sendChanMessage(src, "/d is currently off.");
+            return;
+        }
+        if (cmd_d == "true") {
+            var namecolor = sys.getColor(src);
+            var srcname = sys.name(src);
+            var death = new Array();
+ sys.webCall("https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/scriptdata/deaths2.txt" function (resp){ 
+            var c = Math.floor(death.length * Math.random())
+            sys.sendHtmlAll(resp[c], channel);
+            sys.kick(src);
+            return;
+        })
+    }
     }
     if ((command == "me" || command == "rainbow") && !SESSION.channels(channel).muteall) {
         if (SESSION.channels(channel).meoff === true) {
