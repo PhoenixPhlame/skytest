@@ -257,7 +257,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             return;
         }
         */
-        var death = sys.webCall("https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/scriptdata/deaths.txt".split("\n"), function (resp){
+        var death = sys.webCall("https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/scriptdata/deaths.txt".split('\n'), function (resp){
         var y = Math.floor(death.length * Math.random());
         sys.sendHtmlAll("<font color = " + script.getColor(src) +"><b>" + sys.name(src) + " " + resp[y] + "</b></font>", channel);
         sys.kick(src);
