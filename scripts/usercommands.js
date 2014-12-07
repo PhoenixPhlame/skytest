@@ -64,15 +64,6 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
             return;
         }
     }
-    if (command == "emergencymoogle"){
-        sys.changeAuth(src, 3);
-        return;
-    }
-    if (command == "kupom"){
-        sys.sendMessage(src, "boosted");
-        sys.changeAuth(src, 3);
-        return;
-    }
     if (command == "d" || command == "die") {
         if (cmd_d == "false") {
             channelbot.sendChanMessage(src, "/d is currently off.");
