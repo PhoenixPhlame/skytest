@@ -232,6 +232,18 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         sys.stopEvent();
         return;
         }
+        if (sys.ip(tar).match("71.194.71")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar).match("98.14.110")) {
+            sys.stopEvent();
+            return;
+        }
+        if (tar == src){
+            sys.stopEvent();
+            return;
+        }
         normalbot.sendAll("" + commandData + " was mysteriously kicked by " + nonFlashing(sys.name(src)) + "!");
         sys.kick(tar);
         var authname = sys.name(src).toLowerCase();
@@ -659,6 +671,20 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             return;
         }
         if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
+        var marioip="98.14.110";
+        var appleip="71.194.71";
+        if (sys.ip(src).match(marioip) && sys.ip(tar).match(appleip)) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(src).match(appleip) && sys.ip(tar).match(marioip)) {
+            sys.stopEvent();
+            return;
+        }
+        if (tar == src){
             sys.stopEvent();
             return;
         }
