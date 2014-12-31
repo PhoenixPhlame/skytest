@@ -115,6 +115,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             channelbot.sendMessage(src, "you can't do that here.", channel);
             return;
         }
+        if (channel == watchchannel || channel === 0) {
+            channelbot.sendMessage(src, "you can't do that here.", channel);
+            return;
+        }
 
         SESSION.channels(channel).perm = (commandData.toLowerCase() == 'on');
         SESSION.global().channelManager.update(channel);
