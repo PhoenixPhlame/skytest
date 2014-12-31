@@ -66,7 +66,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             normalbot.sendMessage(src, "No channel exists by this name!", channel);
             return;
         }
-        if (chid === 0 || chid == staffchannel || chid == tourchannel || SESSION.channels(chid).perm) {
+        if (chid === 0 || chid == staffchannel || chid == watchchannel ||  chid == tourchannel || SESSION.channels(chid).perm) {
             normalbot.sendMessage(src, "This channel cannot be destroyed!", channel);
             return;
         }
