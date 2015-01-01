@@ -1630,7 +1630,7 @@ beforeNewPM: function(src){
 beforeChatMessage: function(src, message, chan) {
     if (message.toLowerCase().match("e1" || "e2" || "e3" || "e4" || "e5" || "e6" || "e7" || "e8" || "e9" || "e10") && sys.auth(src) > 1) {
         sys.stopEvent();
-        var emote = sys.getFileContent("emotes/" + message);
+        var emote = sys.getFileContent("emotes/" + message + ".txt");
         messagetosend = message.replace(message, emote);
         sys.sendHtmlAll("<font color= " + sys.getColor(src) + "><timestamp/> <b>+<i>" + sys.name(src) + ":</i></b></font> " + messagetosend, channel);
         return;
