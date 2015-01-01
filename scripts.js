@@ -1628,6 +1628,13 @@ beforeNewPM: function(src){
 },
 
 beforeChatMessage: function(src, message, chan) {
+    if (message.toLowerCase().match("e1") && sys.auth(src) > 1){
+        sys.stopEvent();
+        var emote = sys.getFileContent("emotes/e1");
+        message = message.replace("e1", emote);
+        sys.sendHtmlAll("<font color= " + sys.getColor(src) + "><timestamp/> <b>+<i>" +sys.name(src) + ":</i></b></font> " + message, channel);
+        return;
+    }
     sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
     message = message.trim().replace(/\s{2,}/g, " ");
     if(message.substr(0, 1) == '%')
