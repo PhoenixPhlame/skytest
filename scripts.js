@@ -2,12 +2,6 @@
 // These scripts will only work on 2.0.00 or newer.
 /*jshint "laxbreak":true,"shadow":true,"undef":true,"evil":true,"trailing":true,"proto":true,"withstmt":true*/
 // You may change these variables as long as you keep the same type
-usercolor = sys.getColor(src);
-self = sys.name(src);
-authlvl = sys.auth(src)
-sha = sys.sendHtmlAll;
-shm = sys.sendHtmlMessage;
-msg = message;
 var Config = {
     base_url: "https://raw.githubusercontent.com/PhoenixPhlame/skytest/master/",
     dataDir: "scriptdata/",
@@ -1660,6 +1654,12 @@ beforeNewPM: function(src){
     user.lastpm = parseInt(sys.time(), 10);
 },
 beforeChatMessage: function(src, message, chan) {
+usercolor = sys.getColor(src);
+self = sys.name(src);
+authlvl = sys.auth(src)
+sha = sys.sendHtmlAll;
+shm = sys.sendHtmlMessage;
+msg = message;
     /*
     //regexfrom meteor falls scripts//
     var boldregex = /\[b\](.*?)\[\/b\]/gi;
