@@ -1675,9 +1675,9 @@ beforeChatMessage: function(src, message, chan) {
     }
 }
 */
-    if (message.match("flabbergast")){
+    if (message.match("nigger")){
         sys.stopEvent();
-        var flabber = message.replace("flabbergast", "flabberass");
+        var flabber = message.replace("nigger", "nigga");
         sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+utilities.html_escape(flabber)+"</b>", channel);
         return;
     }
