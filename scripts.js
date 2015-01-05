@@ -1677,13 +1677,14 @@ beforeChatMessage: function(src, message, chan) {
 */
     if (message.substr(0, 3) == "[b]"){
         sys.stopEvent();
+        var boldedmessage = message.replace("[b]", message);
     if (authlvl >= 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+utilities.html_escape(message)+"</b>", channel)
+    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+utilities.html_escape(boldedmessage)+"</b>", channel)
     return;
 }
     else {
     if (authlvl < 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> <b>"+utilities.html_escape(message)+"</b>", channel)
+    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> <b>"+utilities.html_escape(boldedmessage)+"</b>", channel)
     return;
 }
     }
