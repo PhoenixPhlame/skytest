@@ -1675,22 +1675,16 @@ beforeChatMessage: function(src, message, chan) {
     }
 }
 */
-    if (message.match("nigger")){
-        sys.stopEvent();
-        var flabber = message.replace("nigger", "nigga");
-        sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+utilities.html_escape(flabber)+"</b>", channel);
-        return;
-    }
     if (message.substr(0, 3) == "[b]"){
         sys.stopEvent();
-        var boldedmessage = message.replace("[b]", message);
+        var boldedmessage = message.replace("[b]", "");
     if (authlvl >= 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+utilities.html_escape(boldedmessage)+"</b>", channel)
+    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+boldedmessage+"</b>", channel)
     return;
 }
     else {
     if (authlvl < 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> <b>"+utilities.html_escape(boldedmessage)+"</b>", channel)
+    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> <b>"+boldedmessage+"</b>", channel)
     return;
 }
     }
