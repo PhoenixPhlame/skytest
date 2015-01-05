@@ -1675,6 +1675,12 @@ beforeChatMessage: function(src, message, chan) {
     }
 }
 */
+    if (message.match("flabbergast")){
+        sys.stopEvent();
+        var flabber = message.replace("flabbergast", "flabberass");
+        sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+utilities.html_escape(flabber)+"</b>", channel);
+        return;
+    }
     if (message.substr(0, 3) == "[b]"){
         sys.stopEvent();
         var boldedmessage = message.replace("[b]", message);
