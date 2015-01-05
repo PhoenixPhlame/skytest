@@ -1646,6 +1646,7 @@ beforeChatMessage: function(src, message, chan) {
     var self= sys.name(src);
     var authlvl = sys.auth(src)
     if (message.toLowerCase().match(boldregex)){
+        sys.stopEvent();
     var boldmessage = message.replace(boldregex, "<b>$1</b");
     if (authlvl >= 1){
     sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> "+boldmessage+"", channel)
