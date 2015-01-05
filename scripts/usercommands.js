@@ -271,6 +271,10 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
      })
         return;
     }
+    if (cmomand == "marco"){
+        sys.sendHtmlMessage(src, "polo");
+        return;
+    }
     if ((command == "me" || command == "rainbow") && !SESSION.channels(channel).muteall) {
         if (SESSION.channels(channel).meoff === true) {
             normalbot.sendMessage(src, "/me was turned off.", channel);
