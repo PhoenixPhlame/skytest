@@ -208,7 +208,6 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
                 "heard a justin bieber song",
                 "heard a 1 direction song",
                 "went to the bedroom with Emile",
-                "was walking outside, tripped, fell and fell onto the ground. Then, multiple men came by and took advantage of them and did dirty things to their body, choppe", threw them into pieces in the river.";
                 "forgot to lock their doors",
                 "didn't know [$G]Max had a vagina",
                 "was sexually lured and killed by Ross",
