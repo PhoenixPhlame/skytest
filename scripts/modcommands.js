@@ -255,6 +255,26 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         authStats[authname].latestKick = [commandData, parseInt(sys.time(), 10)];
         return;
     }
+    
+    if (command == "grammaron"){
+        grammar = sys.read("grammar.txt");
+        if (grammar == "true"){
+        sys.sendMessage(src, "Grammar is already turned on.", channel);
+        return;
+    }
+        sys.write("grammar.txt", "true");
+        return;
+    }
+    
+    if (command == "grammaroff"){
+        if (grammar == "false"){
+        sys.sendMessage(src, "Grammar is already turned off.", channel);
+        return;
+    }
+        sys.write("grammar.txt", "false");
+        return;
+    }
+
 
     if (command == "mute") {
         if (sys.auth(src) >= 1 || sys.ip(src) == sys.dbIp("[$G] Fenix")){
