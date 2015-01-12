@@ -64,14 +64,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     }
     if (command == "deinvite" || command == "demember") {
         poChannel.takeAuth(src, commandData, "member");
-        if (sys.auth(tar) > 1){
-            sys.stopEvent();
-            return;
-        }
-        if (sys.auth(src) >= 1 || sys.ip(src) == sys.dbIp("[$G] Fenix")){
-            sys.sendMessage(src, "Unable to deinvite authority.", channel);
-            return;
-        }
         if (tar !== undefined) {
             if (sys.isInChannel(tar, channel) && command == "deinvite") {
                 sys.kick(tar, channel);
