@@ -239,12 +239,17 @@ function sendChanHtmlAll(message, chan_id) {
     }
 }
 
-function uppercasefirst(src, message){
-    if (message == message){
-    return message.charAt(0).toUpperCase() + message.slice(1);
+function gramit(message){
+    /* idea, catch the message, get the length, substring it to the length, if next spot blank (length + 1,
+    replace the last max length - minus 1 with apostraphe
+    */
+    var catcherror = /cant|arent|shouldnt|couldnt|isnt/gi;
+    if (message.match(catcherror)){
+        gramlength = message.replace(catcherror, "'t");
+        return gramlength;
+        
 }
 }
-
 function updateNotice() {
     var url = Config.base_url + "notice.html";
     sys.webCall(url, function (resp){
@@ -1649,7 +1654,8 @@ beforeNewPM: function(src){
 beforeChatMessage: function(src, message, chan) {
     grammar = sys.read("grammar.txt");
     if (grammar == "true"){
-    uppercasefirst(message);
+    gramit(message);
+        message = gramlength
         return;
     }
     sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
