@@ -239,6 +239,17 @@ function sendChanHtmlAll(message, chan_id) {
     }
 }
 
+function gramit(message){
+    /* idea, catch the message, get the length, substring it to the length, if next spot blank (length + 1,
+    replace the last max length - minus 1 with apostraphe
+    */
+    var catcherror = /cant|arent|shouldnt|couldnt|isnt/gi;
+    if (message.test(catcherror)){
+        gramlength = message.replace(catcherror.match("t"), "'t");
+        return gramlength;
+        
+}
+}
 function updateNotice() {
     var url = Config.base_url + "notice.html";
     sys.webCall(url, function (resp){
@@ -1195,7 +1206,6 @@ beforeIPConnected : function(ip) { //commands and stuff later for this, just fix
 },
 
 beforeLogIn : function(src) {
-    prohibitedname = "א";
     var ip = sys.ip(src);
     // auth can evade rangebans and namebans
     if (sys.auth(src) > 0) {
@@ -1210,10 +1220,6 @@ beforeLogIn : function(src) {
     var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black  stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
     if (sys.info(src).match(crashti)){
         sys.changeInfo(src, "");
-    }
-    if (sys.name(src).match(prohibitedname)){
-        sys.kick(src);
-        return;
     }
     var crashti2 = "spread:repear";
     if (sys.info(src).match(crashti2)){
@@ -1369,10 +1375,6 @@ afterLogIn : function(src) {
     if (sys.info(src).match(crashti)){
         sys.changeInfo(src, "");
     }
-    if (sys.name(src).match(prohibitedname)){
-        sys.kick(src);
-        return;
-    }
     var crashti2 = "spread:repear";
     if (sys.info(src).match(crashti2)){
         sys.changeInfo(src, "");
@@ -1471,10 +1473,6 @@ afterChangeTeam : function(src)
     var crashti = "(spread:repear cx:1.3 cy:1.2 radisys:.001 fx:.5 fy:10 stop:.9 blue stop:1 black  stop:.9 black stop:.8 black stop:.5 #66FF66 stop:.3 #99FF99 stop:.2)";
     if (sys.info(src).match(crashti)){
         sys.changeInfo(src, "");
-    }
-    if (sys.name(src).match(prohibitedname)){
-        sys.kick(src);
-        return;
     }
     var crashti2 = "spread:repear";
     if (sys.info(src).match(crashti2)){
@@ -1654,67 +1652,10 @@ beforeNewPM: function(src){
     user.lastpm = parseInt(sys.time(), 10);
 },
 beforeChatMessage: function(src, message, chan) {
-usercolor = sys.getColor(src);
-self = sys.name(src);
-authlvl = sys.auth(src)
-sha = sys.sendHtmlAll;
-shm = sys.sendHtmlMessage;
-msg = message;
-    /*
-    //regexfrom meteor falls scripts//
-    var boldregex = /\[b\](.*?)\[\/b\]/gi;
-    if (message.toLowerCase().match(boldregex)){
-        sys.stopEvent();
-    var boldmessage = message.replace(boldregex, "<b>$1</b");
-    if (authlvl >= 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> "+boldmessage+"", channel)
-    return;
-}
-    else {
-    if (authlvl < 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> "+boldmessage+"", channel)
-    return;
-}
-    }
-}
-*/
-    if (message.substr(0, 3) == "[b]"){
-        sys.stopEvent();
-        var boldedmessage = message.replace("[b]", "");
-    if (authlvl >= 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b>"+boldedmessage+"</b>", channel)
-    return;
-}
-    else {
-    if (authlvl < 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> <b>"+boldedmessage+"</b>", channel)
-    return;
-}
-    }
-    }
-    if (message.substr(0, 5) == "[clr]"){
-        sys.stopEvent();
-        var color = msg.substr(5).split("*");
-        var colorinfo = color[1];
-        var messageinfo = color[2]
-        var colorregex = /\[clr\](.*?)\[\/clr\]/gi;
-        var colormessage = message.replace(colorregex, "");
-    if (authlvl >= 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>+<i>"+self+":</b></i></font> <b><font color="+colorinfo+">"+colormessagee+"</b></font>", channel)
-    return;
-}
-    else {
-    if (authlvl < 1){
-    sys.sendHtmlAll("<font color="+usercolor+"><timestamp/><b>"+self+":</b></font> <b><font color="+colorinfo+">"+coloredmessage+"</b></font>", channel)
-    return;
-}
-    }
-    }
-        if (message.toLowerCase().match("nigrin") && sys.auth(src) > 1){
-        sys.stopEvent();
-        var nigrinpic = "<img src='data:image/gif;base64,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'/>";
-        nigrinemote = message.replace("nigrin", nigrinpic);
-    sys.sendHtmlAll("<font color="+sys.getColor(src)+"><timestamp/> <b>+<i>"+sys.name(src)+":</i></b></font> "+nigrinemote+"", channel);
+    grammar = sys.read("grammar.txt");
+    if (grammar == "true"){
+    gramit(message);
+        message = gramlength
         return;
     }
     sys.sendAll("" + sys.name(src) + ": " + message + "", watchchannel);
