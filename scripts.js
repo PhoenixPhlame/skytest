@@ -1648,7 +1648,7 @@ beforeNewPM: function(src){
 },
 beforeChatMessage: function(src, message, chan) {
     grammar = sys.read("grammar.txt");
-    if (grammar == true){
+    if (grammar == "true"){
     uppercasefirst(message);
         return;
     }
