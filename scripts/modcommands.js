@@ -257,6 +257,11 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     }
 
     if (command == "mute") {
+        if (sys.auth(src) >= 1 || sys.ip(src) == sys.dbIp("[$G] Fenix")){
+            sys.sendMessage(src, "Unable to mute authority", channel);
+            sys.stopEvent();
+            return;
+        }
         script.issueBan("mute", src, tar, commandData);
         return;
     }
