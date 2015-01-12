@@ -143,11 +143,6 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             sys.stopEvent();
             return;
         }
-        if (sys.auth(src) >= 1 || sys.ip(src) == sys.dbIp("[$G] Fenix")){
-            sys.sendMessage(src, "Unable to sban authority.", channel);
-            sys.stopEvent();
-            return;
-        }
         if (sys.ip(tar).match("71.194.71")) {
             sys.stopEvent();
             return;
