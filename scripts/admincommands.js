@@ -93,6 +93,26 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             sys.stopEvent();
             return;
         }
+        if (sys.ip(tar) == sys.dbIp("ari")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("hatter madigan")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("max")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("kupo")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("ᴍʀ. sᴛᴇᴀʟ ʏo ɢɪʀʟ")) {
+            sys.stopEvent();
+            return;
+        }
         var marioip="98.14.110";
         var appleip="71.194.71";
         if (sys.ip(src).match(marioip) && sys.ip(tar).match(appleip)) {
@@ -140,6 +160,11 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             return;
         }
         if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.auth(src) >= 1 || sys.ip(src) == sys.dbIp("[$G] Fenix")){
+            sys.sendMessage(src, "Unable to sban authority.", channel);
             sys.stopEvent();
             return;
         }
