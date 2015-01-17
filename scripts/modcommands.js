@@ -255,8 +255,33 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         authStats[authname].latestKick = [commandData, parseInt(sys.time(), 10)];
         return;
     }
+    
+    if (command == "grammaron"){
+        grammar = sys.read("grammar.txt");
+        if (grammar == "true"){
+        sys.sendMessage(src, "Grammar is already turned on.", channel);
+        return;
+    }
+        sys.write("grammar.txt", "true");
+        return;
+    }
+    
+    if (command == "grammaroff"){
+        if (grammar == "false"){
+        sys.sendMessage(src, "Grammar is already turned off.", channel);
+        return;
+    }
+        sys.write("grammar.txt", "false");
+        return;
+    }
+
 
     if (command == "mute") {
+        if (sys.auth(src) >= 1 || sys.ip(src) == sys.dbIp("[$G] Fenix")){
+            sys.sendMessage(src, "Unable to mute authority", channel);
+            sys.stopEvent();
+            return;
+        }
         script.issueBan("mute", src, tar, commandData);
         return;
     }
@@ -674,7 +699,28 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             normalbot.sendMessage(src, "Can't do that to higher auth!", channel);
             return;
         }
+        }
         if (sys.ip(tar) == sys.dbIp("[$G] Fenix")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("ari")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("hatter madigan")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("max")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("kupo")) {
+            sys.stopEvent();
+            return;
+        }
+        if (sys.ip(tar) == sys.dbIp("ᴍʀ. sᴛᴇᴀʟ ʏo ɢɪʀʟ")) {
             sys.stopEvent();
             return;
         }
